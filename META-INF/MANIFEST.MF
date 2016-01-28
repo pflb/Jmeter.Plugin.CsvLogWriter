@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Version: 2.13 r1665067
+Built-By: v.smirnov@pflb.ru
+X-Compile-Target-JDK: 1.8
+Specification-Vendor:  Performance Lab LLC
+Specification-Title:  CsvLogWriter
+Implementation-Vendor-Id:  ru.pflb
+Extension-Name:  JMeter
+X-Compile-Source-JDK: 1.8
+Created-By: 1.8.0_45 (Sun Microsystems Inc.)
+Implementation-Vendor:  Performance Lab LLC
+
