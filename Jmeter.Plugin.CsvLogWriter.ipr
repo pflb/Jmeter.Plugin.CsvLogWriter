@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ArtifactManager">
-    <artifact type="jar" name="ru.pflb.JMeter.Plugin.CsvLogWriter">
-      <output-path>$PROJECT_DIR$/out/artifacts/</output-path>
+    <artifact type="jar" build-on-make="true" name="ru.pflb.JMeter.Plugin.CsvLogWriter">
+      <output-path>$PROJECT_DIR$/../../apache-jmeter-2.13/lib/ext</output-path>
       <root id="archive" name="ru.pflb.JMeter.Plugin.CsvLogWriter.jar">
         <element id="module-output" name="Jmeter.Plugin.CsvLogWriter" />
         <element id="directory" name="META-INF">
@@ -54,6 +54,19 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="JMeter" type="JarApplication" factoryName="JAR Application" singleton="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../../apache-jmeter-2.13/bin/ApacheJMeter.jar" />
+      <option name="PROGRAM_PARAMETERS" value="-t test.jmx" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jmeter.script" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <envs />
+      <module name="Jmeter.Plugin.CsvLogWriter" />
+      <method />
+    </configuration>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
