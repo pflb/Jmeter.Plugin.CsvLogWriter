@@ -28,14 +28,15 @@ public class CsvLogWriterGui extends AbstractListenerGui {
     @Override
     public String getLabelResource()
     {
-        throw new NotImplementedException();
+        return getClass().getCanonicalName();
     }
 
     //JMeterGUIComponent.createTestElement()
     @Override
     public TestElement createTestElement()
     {
-        throw new NotImplementedException();
+        TestElement te = new CsvLogWriter();
+        return te;
     }
 
     //JMeterGUIComponent.modifyTestElement(TestElement te)
