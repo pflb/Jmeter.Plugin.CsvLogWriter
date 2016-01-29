@@ -38,6 +38,7 @@ public class CsvLogWriter
 
     public CsvLogWriter() {
         super();
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter(3)");}
     }
 
     /**
@@ -47,7 +48,7 @@ public class CsvLogWriter
     @Override
     public void sampleOccurred(SampleEvent e)
     {
-
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleOccurred( SampleEvent e == " + e + " )");}
     }
 
     /**
@@ -56,6 +57,7 @@ public class CsvLogWriter
      */
     @Override
     public void sampleStarted(SampleEvent e) {
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleStarted( SampleEvent e == " + e + " )");}
     }
 
     /**
@@ -64,6 +66,7 @@ public class CsvLogWriter
      */
     @Override
     public void sampleStopped(SampleEvent e) {
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleStopped( SampleEvent e == " + e + " )");}
     }
 
     /**
@@ -71,7 +74,7 @@ public class CsvLogWriter
      */
     @Override
     public void testStarted() {
-        if (log.isInfoEnabled()) { log.info("CsvLogWriter.testStarted()");}
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted()");}
     }
 
     /**
@@ -80,7 +83,7 @@ public class CsvLogWriter
     @Override
     public void testStarted(String host)
     {
-        if (log.isInfoEnabled()) { log.info("CsvLogWriter.testStarted( String host == " + host + " )");}
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted( String host == " + host + " )");}
     }
 
     /**
@@ -89,7 +92,7 @@ public class CsvLogWriter
     @Override
     public void testEnded()
     {
-        if (log.isInfoEnabled()) { log.info("CsvLogWriter.testEnded()");}
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testEnded()");}
     }
 
     /**
@@ -98,7 +101,7 @@ public class CsvLogWriter
     @Override
     public void testEnded(String host)
     {
-        if (log.isInfoEnabled()) { log.info("CsvLogWriter.testEnded( String host == " + host + " )");}
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testEnded( String host == " + host + " )");}
     }
 
 
