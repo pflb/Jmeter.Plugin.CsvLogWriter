@@ -1,28 +1,26 @@
 package ru.pflb.JMeter.Plugin;
 
+
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.reporters.AbstractListenerElement;
-import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.samplers.Remoteable;
 import org.apache.jmeter.samplers.SampleEvent;
 import org.apache.jmeter.samplers.SampleListener;
-import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jmeter.util.JMeterUtils;
-//jorphan.jar
 import org.apache.jorphan.logging.LoggingManager;
-//logkit-2.0.jar
 import org.apache.log.Logger;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
-import java.util.ArrayList;
-import java.util.Arrays;
+/*
+import ru.pflb.JMeter.JMeterPluginsUtils;
+import ru.pflb.JMeter.BrowseAction;
+import ru.pflb.JMeter.GuiBuilderHelper;*/
+//jorphan.jar
+//logkit-2.0.jar
+
+
 
 public class CsvLogWriter
         extends AbstractListenerElement
@@ -34,11 +32,19 @@ public class CsvLogWriter
     private static final String MAXFILESIZE = "maxFileSize";
     private static final String FILENAME = "filename";
     private static final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
+    private static final String OVERWRITE = "overwrite";
+ //   private static final String FILENAME = "filename";
+    private static final String COLUMNS = "columns";
+    private static final String HEADER = "header";
+    private static final String FOOTER = "footer";
+    private static final String VAR_PREFIX = "variable#";
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
+    protected volatile FileChannel fileChannel;
 
     public CsvLogWriter() {
         super();
     }
+
 
     /**
      * SampleListener.sampleOccurred
@@ -69,6 +75,9 @@ public class CsvLogWriter
     /**
      * TestStateListener.testStarted
      */
+
+
+
     @Override
     public void testStarted() {
         if (log.isInfoEnabled()) { log.info("CsvLogWriter.testStarted()");}
@@ -101,7 +110,21 @@ public class CsvLogWriter
         if (log.isInfoEnabled()) { log.info("CsvLogWriter.testEnded( String host == " + host + " )");}
     }
 
+ /*   private synchronized void closeFile() {
+        if (fileChannel != null && fileChannel.isOpen()) {
+            try {
+                String footer = JMeterPluginsUtils.replaceRNT(getFileFooter());
+                if (!footer.isEmpty()) {
+                    syncWrite(ByteBuffer.wrap(footer.getBytes()));
+                }
 
+                fileChannel.force(false);
+                fileChannel.close();
+            } catch (IOException ex) {
+                log.error("Failed to close file: " + getFilename(), ex);
+            }
+        }
+    }*/
 
     //Методы для доступа к настройкам
 
