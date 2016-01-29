@@ -29,21 +29,12 @@ public class CsvLogWriter
 
     private static final Logger log = LoggingManager.getLoggerForClass();
 
-    private static final String MAXFILESIZE = "maxFileSize";
-    private static final String FILENAME = "filename";
     private static final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
-    private static final String OVERWRITE = "overwrite";
- //   private static final String FILENAME = "filename";
-    private static final String COLUMNS = "columns";
-    private static final String HEADER = "header";
-    private static final String FOOTER = "footer";
-    private static final String VAR_PREFIX = "variable#";
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
-    protected volatile FileChannel fileChannel;
 
     public CsvLogWriter() {
         super();
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter(3)");}
+        if (log.isDebugEnabled()) { log.debug("CsvLogWriter()");}
     }
 
 
@@ -112,22 +103,6 @@ public class CsvLogWriter
     {
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testEnded( String host == " + host + " )");}
     }
-
- /*   private synchronized void closeFile() {
-        if (fileChannel != null && fileChannel.isOpen()) {
-            try {
-                String footer = JMeterPluginsUtils.replaceRNT(getFileFooter());
-                if (!footer.isEmpty()) {
-                    syncWrite(ByteBuffer.wrap(footer.getBytes()));
-                }
-
-                fileChannel.force(false);
-                fileChannel.close();
-            } catch (IOException ex) {
-                log.error("Failed to close file: " + getFilename(), ex);
-            }
-        }
-    }*/
 
     //Методы для доступа к настройкам
 
