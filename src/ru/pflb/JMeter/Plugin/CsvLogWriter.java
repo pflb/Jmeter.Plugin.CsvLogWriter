@@ -47,7 +47,7 @@ public class CsvLogWriter
      * @param e
      */
 
-    public static String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter) {
+    public static String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter, int transactionLevel) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
         SampleSaveConfiguration saveConfig = sample.getSaveConfig();
         String i;
@@ -96,7 +96,7 @@ public class CsvLogWriter
         text.append(event.getResult().getIdleTime());
         text.append(sample.getConnectTime());
 
-        if (Integer.parseInt(responceCode) > 400) {
+        if (Integer.parseInt(responceCode) >= 400) {
             text.append(sample.getResponseDataAsString().replace("\n", " "));
         }
         else
@@ -104,6 +104,7 @@ public class CsvLogWriter
             text.append("");
         }
 
+        text.append(transactionLevel);
 //        for(int var8 = 0; var8 < SampleEvent.getVarCount(); ++var8) {
 //            text.append(event.getVarValue(var8));
 //        }
@@ -180,21 +181,16 @@ public class CsvLogWriter
     @Override
     public void sampleOccurred(SampleEvent e)
     {
-        try {
-            fw = createFile(filepath);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
 
-        logSample(e, e.getResult());
+        logSample(e, e.getResult(), 0);
     }
 
-    void logSample(SampleEvent e, SampleResult result) {
+    void logSample(SampleEvent e, SampleResult result, int transactionLevel) {
         StringBuffer sb = new StringBuffer();
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleOccurred( SampleEvent e == " + e + " )");}
-        sb.append(resultToDelimitedString(e, result, ";"));
+        sb.append(resultToDelimitedString(e, result, ";", transactionLevel));
         sb.append("\n");
-        log.info(resultToDelimitedString(e, result, ";"));
+        log.info(resultToDelimitedString(e, result, ";", transactionLevel));
         try {
             writeEvent(fw,sb);
         } catch (IOException e1) {
@@ -204,12 +200,17 @@ public class CsvLogWriter
         SampleResult[] subResults = result.getSubResults();
         if(subResults != null) {
             for (SampleResult subResult: subResults)
-                logSample(e, subResult);
+                logSample(e, subResult, transactionLevel + 1);
         }
     }
 
     public String computeFileName(int number)
     {
+        /*String path = getFilename();
+        int lastPointIndex = path.lastIndexOf(".");
+        String dir = path.substring(1, lastPointIndex);
+        System.out.println(dir);*/
+
         String dirName = "C:\\Users\\a.perevozchikova\\Desktop\\";
         String baseName = "logX";
         String extention = "csv";
@@ -226,7 +227,7 @@ public class CsvLogWriter
         else
         {
            fw = new FileWriter(filepath, true);
-           fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\"");
+           fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
            fw.write("\n");
         }
         return fw;
@@ -275,11 +276,11 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
-       /* try {
+        try {
             fw = createFile(filepath);
         } catch (IOException e1) {
             e1.printStackTrace();
-        }*/
+        }
 
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted()");}
     }
