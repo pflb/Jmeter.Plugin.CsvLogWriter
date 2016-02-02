@@ -10,14 +10,12 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 
-/*
-import ru.pflb.JMeter.JMeterPluginsUtils;
-import ru.pflb.JMeter.BrowseAction;
-import ru.pflb.JMeter.GuiBuilderHelper;*/
 //jorphan.jar
 //logkit-2.0.jar
 
@@ -41,162 +39,79 @@ public class CsvLogWriter
     private String filepath = computeFileName(number);
     public CsvLogWriter() throws IOException {
         super();
-        fw = createFile(filepath);
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter()");}
     }
-
-    /*private static String[] splitHeader(String headerLine, String delim) {
-        String[] parts = headerLine.split("\\Q" + delim);
-        int previous = -1;
-
-        for(int i = 0; i < parts.length; ++i) {
-            String label = parts[i];
-            if(isVariableName(label)) {
-                previous = 2147483647;
-            } else {
-                int current = headerLabelMethods.indexOf(label);
-                if(current == -1) {
-                    return null;
-                }
-
-                if(current <= previous) {
-                    log.warn("Column header number " + (i + 1) + " name " + label + " is out of order.");
-                    return null;
-                }
-
-                previous = current;
-            }
-        }
-
-        return parts;
-    }*/
-
-/*    private static String[] splitHeader(String headerLine, String delim) {
-        String[] parts = headerLine.split("\\Q" + delim);
-        return parts;
-    }*/
 
     /**
      * SampleListener.sampleOccurred
      * @param e
      */
 
-    public static String resultToDelimitedString(SampleEvent event, String delimiter) {
+    public static String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
-        SampleResult sample = event.getResult();
         SampleSaveConfiguration saveConfig = sample.getSaveConfig();
         String i;
-        //if(saveConfig.saveTimestamp()) {
-        //    if(saveConfig.printMilliseconds()) {
-                text.append(sample.getTimeStamp());
-         /*   } else if(saveConfig.formatter() != null) {
-                i = saveConfig.formatter().format(new Date(sample.getTimeStamp()));
-                text.append(i);
-            }
-        }*/
+        text.append(sample.getTimeStamp());
+        text.append(sample.getTime());
+        text.append(sample.getSampleLabel());
 
-        //if(saveConfig.saveTime()) {
-            text.append(sample.getTime());
-       // }
+        String responceCode = sample.getResponseCode();
+        text.append(sample.getResponseCode());
 
-       // if(saveConfig.saveLabel()) {
-            text.append(sample.getSampleLabel());
-        //}
 
-       // if(saveConfig.saveCode()) {
-            text.append(sample.getResponseCode());
-        //}
 
-       // if(saveConfig.saveMessage()) {
-            text.append(sample.getResponseMessage());
-        //}
+        text.append(sample.getResponseMessage());
 
-        //if(saveConfig.saveThreadName()) {
-            text.append(sample.getThreadName());
-        //}
+        text.append(sample.getThreadName());
+        text.append(sample.getDataType());
+        text.append(sample.isSuccessful());
 
-        //if(saveConfig.saveDataType()) {
-            text.append(sample.getDataType());
-        //}
-
-       // if(saveConfig.saveSuccess()) {
-            text.append(sample.isSuccessful());
-       // }
-
-       // if(saveConfig.saveAssertionResultsFailureMessage()) {
-            i = null;
-            AssertionResult[] results = sample.getAssertionResults();
-            if(results != null) {
-                for(int i1 = 0; i1 < results.length; ++i1) {
-                    i = results[i1].getFailureMessage();
-                    if(i != null) {
-                        break;
-                    }
-                }
-            }
-
-            if(i != null) {
-                text.append(i);
-            } else {
-                text.append("");
-            }
-       // }
-
-       // if(saveConfig.saveBytes()) {
-            text.append(sample.getBytes());
-       // }
-
-       // if(saveConfig.saveThreadCounts()) {
-            text.append(sample.getGroupThreads());
-            text.append(sample.getAllThreads());
-       // }
-
-      //  if(saveConfig.saveUrl()) {
-            text.append((Object)sample.getURL());
-      //  }
-
-       // if(saveConfig.saveFileName()) {
-            text.append(sample.getResultFileName());
-       // }
-
-       // if(saveConfig.saveLatency()) {
-            text.append(sample.getLatency());
-      //  }
-
-       // if(saveConfig.saveEncoding()) {
-            text.append(sample.getDataEncodingWithDefault());
-      //  }
-
-     //   if(saveConfig.saveSampleCount()) {
-            text.append(sample.getSampleCount());
-            text.append(sample.getErrorCount());
-       // }
-
-      //  if(saveConfig.saveHostname()) {
-            text.append(event.getHostname());
-      //  }
-
-       // if(saveConfig.saveIdleTime()) {
-            text.append(event.getResult().getIdleTime());
-     //   }
-
-      //  if(saveConfig.saveConnectTime()) {
-            text.append(sample.getConnectTime());
-      //  }
-
-        for(int var8 = 0; var8 < SampleEvent.getVarCount(); ++var8) {
-            text.append(event.getVarValue(var8));
+        i = null;
+        AssertionResult[] results = sample.getAssertionResults();
+        if(results != null) {
+           for(int i1 = 0; i1 < results.length; ++i1) {
+              i = results[i1].getFailureMessage();
+              if(i != null) {
+                break;
+              }
+           }
         }
 
-        //text.append("\r\n");
+        if(i != null) {
+           text.append(i);
+         } else {
+           text.append("");
+         }
+
+        text.append(sample.getBytes());
+        text.append(sample.getGroupThreads());
+        text.append(sample.getAllThreads());
+        text.append((Object)sample.getURL());
+        text.append(sample.getResultFileName());
+        text.append(sample.getLatency());
+        text.append(sample.getDataEncodingWithDefault());
+        text.append(sample.getSampleCount());
+        text.append(sample.getErrorCount());
+        text.append(event.getHostname());
+        text.append(event.getResult().getIdleTime());
+        text.append(sample.getConnectTime());
+
+        if (Integer.parseInt(responceCode) > 400) {
+            text.append(sample.getResponseDataAsString().replace("\n", " "));
+        }
+        else
+        {
+            text.append("");
+        }
+
+//        for(int var8 = 0; var8 < SampleEvent.getVarCount(); ++var8) {
+//            text.append(event.getVarValue(var8));
+//        }
 
         return text.toString();
     }
 
     private static String quoteDelimiters(String input, char[] specialChars) {
-       /* if(StringUtils.containsNone(input, specialChars)) {
-            return input;
-        } else {*/
             StringBuilder buffer = new StringBuilder(input.length() + 10);
             char quote = specialChars[1];
             buffer.append(quote);
@@ -212,7 +127,6 @@ public class CsvLogWriter
 
             buffer.append(quote);
             return buffer.toString();
-     //   }
     }
 
     static final class StringQuoter {
@@ -263,91 +177,61 @@ public class CsvLogWriter
         }
     }
 
- /*   @Override
-    public void sampleOccurred(SampleEvent event) {
-        SampleResult result = event.getResult();
-
-        if (isSampleWanted(result.isSuccessful())) {
-            sendToVisualizer(result);
-            if (out != null && !isResultMarked(result) && !this.isStats) {
-                SampleSaveConfiguration config = getSaveConfig();
-                result.setSaveConfig(config);
-                try {
-                    if (config.saveAsXml()) {
-                        SaveService.saveSampleResult(event, out);
-                    } else { // !saveAsXml
-                        String savee = org.apache.jmeter.save.CSVSaveService.resultToDelimitedString(event);
-                        out.println(savee);
-                    }
-                } catch (Exception err) {
-                    log.error("Error trying to record a sample", err); // should throw exception back to caller
-                }
-            }
-        }
-
-        if(summariser != null) {
-            summariser.sampleOccurred(event);
-        }
-    }
-*/
-   /* public void writeHeader()
-    {
-        StringBuffer sb = new StringBuffer();
-        sb.append("TimeStamp;Time;SampleLabel;ResponseCode;ResponseMessage;ThreadName;DataType;isSuccessful;FailureMessage;Bytes;GroupThreads;AllThreads;URL;FileName;Latency;DataEncodingWithDefault;SampleCount;ErrorCount;Hostname;IdleTime;ConnectTime;VarValue\n");
-    }*/
     @Override
     public void sampleOccurred(SampleEvent e)
     {
+        try {
+            fw = createFile(filepath);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        logSample(e, e.getResult());
+    }
+
+    void logSample(SampleEvent e, SampleResult result) {
         StringBuffer sb = new StringBuffer();
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleOccurred( SampleEvent e == " + e + " )");}
-        //e.getResult().getTimeStamp() + ";" + e.getHostname() + ";"+e.getResult().getTime()+";" + e.getResult().getSampleLabel() + ";" + e.getResult().getLatency()+ "\n"
-        sb.append(resultToDelimitedString(e, ";"));
+        sb.append(resultToDelimitedString(e, result, ";"));
         sb.append("\n");
-        log.info(resultToDelimitedString(e, ";"));
+        log.info(resultToDelimitedString(e, result, ";"));
         try {
             writeEvent(fw,sb);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+
+        SampleResult[] subResults = result.getSubResults();
+        if(subResults != null) {
+            for (SampleResult subResult: subResults)
+                logSample(e, subResult);
+        }
     }
 
     public String computeFileName(int number)
     {
-
         String dirName = "C:\\Users\\a.perevozchikova\\Desktop\\";
         String baseName = "logX";
         String extention = "csv";
-        String filepath = dirName + baseName + String.valueOf(number) + "." + extention;
+        filepath = dirName + baseName + String.valueOf(number) + "." + extention;
         return filepath;
     }
 
-    /*public FileWriter fw(String filepath)
-    {
-        fw = new FileWriter(filepath, true);
-    }*/
-
     public FileWriter createFile(String filepath) throws IOException {
-        //filepath = getFilename();
-        FileWriter fw = new FileWriter(filepath, true);
-        try {
-            fw.write("TimeStamp;Time;SampleLabel;ResponseCode;ResponseMessage;ThreadName;DataType;isSuccessful;FailureMessage;Bytes;GroupThreads;AllThreads;URL;FileName;Latency;DataEncodingWithDefault;SampleCount;ErrorCount;Hostname;IdleTime;ConnectTime\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+        File f = new File(filepath);
+        if (f.exists())
+        {
+           fw = new FileWriter(filepath, true);
+        }
+        else
+        {
+           fw = new FileWriter(filepath, true);
+           fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\"");
+           fw.write("\n");
         }
         return fw;
     }
 
- /*   public void openFile(FileWriter fw) throws IOException {
-        /*filepath = getFilename();
-        FileWriter fw = new FileWriter(filepath, true);*/
-     /*   try {
-            fw.write("TimeStamp;Time;SampleLabel;ResponseCode;ResponseMessage;ThreadName;DataType;isSuccessful;FailureMessage;Bytes;GroupThreads;AllThreads;URL;FileName;Latency;DataEncodingWithDefault;SampleCount;ErrorCount;Hostname;IdleTime;ConnectTime\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
- //FileWriter fw,
     public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
         event_count++;
         CsvLogWriter.fw.write(sb.toString());
@@ -365,26 +249,13 @@ public class CsvLogWriter
         fw.close();
     }
 
-
- /*   public void CSVWriter(StringBuffer sb)
-    {
-        try {
-            FileWriter fw = new FileWriter(getFilename(), true);
-            fw.write("TimeStamp;Time;SampleLabel;ResponseCode;ResponseMessage;ThreadName;DataType;isSuccessful;FailureMessage;Bytes;GroupThreads;AllThreads;URL;FileName;Latency;DataEncodingWithDefault;SampleCount;ErrorCount;Hostname;IdleTime;ConnectTime\n");
-            fw.write(sb.toString());
-            fw.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-    }*/
-
     /**
      * SampleListener.sampleStarted
      * @param e
      */
     @Override
     public void sampleStarted(SampleEvent e) {
+
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleStarted( SampleEvent e == " + e + " )");}
     }
 
@@ -404,6 +275,12 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
+       /* try {
+            fw = createFile(filepath);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }*/
+
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted()");}
     }
 
@@ -448,7 +325,5 @@ public class CsvLogWriter
     public String getFilename() {
         return getPropertyAsString(FILENAME);
     }
-
-
 
 }
