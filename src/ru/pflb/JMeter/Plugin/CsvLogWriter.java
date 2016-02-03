@@ -10,9 +10,12 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.Date;
 import java.util.stream.Stream;
+
+import static ru.pflb.JMeter.Plugin.CsvLogWriterGui.*;
 
 //jorphan.jar
 //logkit-2.0.jar
@@ -24,20 +27,17 @@ public class CsvLogWriter
         implements SampleListener, Serializable,
         TestStateListener, Remoteable, NoThreadClone {
 
-    private static final Logger log = LoggingManager.getLoggerForClass();
-
     private static final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
 
     private static final String FILENAME = "filename";
-    private static final String[] DATE_FORMAT_STRINGS = new String[]{"yyyy/MM/dd HH:mm:ss.SSS", "yyyy/MM/dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS", "yyyy-MM-dd HH:mm:ss", "MM/dd/yy HH:mm:ss"};
+    private static final String ROTATION = "rotation";
     private static int number = 0;
     private static int event_count = 0;
     public static FileWriter fw;
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
-    public String filepath; //computeFileName(number)
+    public String filepath;
     public CsvLogWriter() throws IOException {
         super();
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter()");}
     }
 
     /**
@@ -179,16 +179,13 @@ public class CsvLogWriter
     @Override
     public void sampleOccurred(SampleEvent e)
     {
-
         logSample(e, e.getResult(), 0);
     }
 
     void logSample(SampleEvent e, SampleResult result, int transactionLevel) {
         StringBuffer sb = new StringBuffer();
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleOccurred( SampleEvent e == " + e + " )");}
         sb.append(resultToDelimitedString(e, result, ";", transactionLevel));
         sb.append("\n");
-        log.info(resultToDelimitedString(e, result, ";", transactionLevel));
         try {
             writeEvent(fw,sb);
         } catch (IOException e1) {
@@ -205,12 +202,16 @@ public class CsvLogWriter
     public String computeFileName(int number)
     {
         filepath = getFilename();
-        if (number > 0)
+        if (filepath.equals(""))
         {
+            filepath = "..//CSVLog.csv";
+        }
+            if (number > 0) {
             int lastPointIndex = filepath.lastIndexOf(".");
             String dir = filepath.substring(0, lastPointIndex);
             filepath = dir + "_" + number + filepath.substring(lastPointIndex);
-        }
+            }
+
         return filepath;
     }
 
@@ -245,7 +246,11 @@ public class CsvLogWriter
     public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
         event_count++;
         CsvLogWriter.fw.write(sb.toString());
-        if (event_count >= 100000)
+        String RotationLimit = getRotation();//Integer.parseInt();
+        if (RotationLimit.equals("")) {
+            RotationLimit = "100000";
+        }
+        if (event_count >= Integer.parseInt(RotationLimit))
         {
             event_count = 0;
             closeFile(CsvLogWriter.fw);
@@ -264,10 +269,7 @@ public class CsvLogWriter
      * @param e
      */
     @Override
-    public void sampleStarted(SampleEvent e) {
-
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleStarted( SampleEvent e == " + e + " )");}
-    }
+    public void sampleStarted(SampleEvent e) {    }
 
     /**
      * SampleListener.sampleStopped
@@ -275,7 +277,6 @@ public class CsvLogWriter
      */
     @Override
     public void sampleStopped(SampleEvent e) {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.sampleStopped( SampleEvent e == " + e + " )");}
     }
 
     /**
@@ -291,8 +292,6 @@ public class CsvLogWriter
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted()");}
     }
 
     /**
@@ -301,7 +300,6 @@ public class CsvLogWriter
     @Override
     public void testStarted(String host)
     {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testStarted( String host == " + host + " )");}
     }
 
     /**
@@ -315,7 +313,6 @@ public class CsvLogWriter
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testEnded()");}
     }
 
     /**
@@ -324,7 +321,6 @@ public class CsvLogWriter
     @Override
     public void testEnded(String host)
     {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriter.testEnded( String host == " + host + " )");}
     }
 
     //Методы для доступа к настройкам
@@ -335,6 +331,13 @@ public class CsvLogWriter
 
     public String getFilename() {
         return getPropertyAsString(FILENAME);
+    }
+
+    public String getRotation() {
+        return getPropertyAsString(ROTATION);
+    }
+    public void setRotation(String name) {
+        setProperty(ROTATION, name);
     }
 
 }

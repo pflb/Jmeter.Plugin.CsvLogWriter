@@ -87,7 +87,7 @@ Stack Trace:
       </hashTree>
       <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="88888888888888888" enabled="true">
         <stringProp name="TestPlan.comments">comment999999999999</stringProp>
-        <stringProp name="filename"></stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\123test.csv</stringProp>
       </ru.pflb.JMeter.Plugin.CsvLogWriter>
       <hashTree/>
       <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">

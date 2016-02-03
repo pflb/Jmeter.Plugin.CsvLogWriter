@@ -12,26 +12,23 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import static org.apache.jmeter.util.JMeterUtils.setProperty;
-
 public class CsvLogWriterGui extends AbstractListenerGui {
 
-    private static final Logger log = LoggingManager.getLoggerForClass();
     private JTextField filename;
+    private JTextField rotation;
     private static final String FILENAME = "filename";
+    private static final String ROTATION = "rotation";
+
 
     @Override
     public String getLabelResource()
     {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.getLabelResource()");}
-
         return "CsvLogWriterGui_displayName";
     }
 
 
     @Override
     public TestElement createTestElement(){
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.createTestElement()");}
         TestElement te = null;
         try {
             te = new CsvLogWriter();
@@ -49,28 +46,26 @@ public class CsvLogWriterGui extends AbstractListenerGui {
     public void modifyTestElement(TestElement te)
     {
         super.configureTestElement(te);
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.modifyTestElement( TestElement te = " + te + " )"); }
         if (te instanceof CsvLogWriter) {
             CsvLogWriter fw = (CsvLogWriter) te;
             fw.setFilename(filename.getText());
+            fw.setRotation(rotation.getText());
         }
     }
 
     public CsvLogWriterGui()
     {
         super();
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.CsvLogWriterGui()");}
         init();
     }
 
     @Override
     public String getStaticLabel() {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.getStaticLabel()");}
         return "pflb@CsvLogWriter";
     }
 
+
     private void init() {
-        if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.init()");}
         setLayout(new BorderLayout(0, 5));
         setBorder(makeBorder());
         add(makeTitlePanel(), BorderLayout.NORTH);
@@ -104,11 +99,13 @@ public class CsvLogWriterGui extends AbstractListenerGui {
                                                }
                                            }
                                        });
+        addToPanel(mainPanel, labelConstraints, 0, 2, new JLabel("Rotation: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 2, rotation = new JTextField(20));
+        rotation.setText("100000");
     }
     private void addToPanel(JPanel panel, GridBagConstraints constraints, int col, int row, JComponent component) {
         constraints.gridx = col;
         constraints.gridy = row;
         panel.add(component, constraints);
     }
-
 }
