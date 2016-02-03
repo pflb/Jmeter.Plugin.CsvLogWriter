@@ -10,11 +10,9 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Date;
+import java.util.stream.Stream;
 
 //jorphan.jar
 //logkit-2.0.jar
@@ -36,7 +34,7 @@ public class CsvLogWriter
     private static int event_count = 0;
     public static FileWriter fw;
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
-    private String filepath = computeFileName(number);
+    public String filepath; //computeFileName(number)
     public CsvLogWriter() throws IOException {
         super();
         if (log.isDebugEnabled()) { log.debug("CsvLogWriter()");}
@@ -206,23 +204,34 @@ public class CsvLogWriter
 
     public String computeFileName(int number)
     {
-        /*String path = getFilename();
-        int lastPointIndex = path.lastIndexOf(".");
-        String dir = path.substring(1, lastPointIndex);
-        System.out.println(dir);*/
-
-        String dirName = "C:\\Users\\a.perevozchikova\\Desktop\\";
-        String baseName = "logX";
-        String extention = "csv";
-        filepath = dirName + baseName + String.valueOf(number) + "." + extention;
+        filepath = getFilename();
+        if (number > 0)
+        {
+            int lastPointIndex = filepath.lastIndexOf(".");
+            String dir = filepath.substring(0, lastPointIndex);
+            filepath = dir + "_" + number + filepath.substring(lastPointIndex);
+        }
         return filepath;
     }
 
     public FileWriter createFile(String filepath) throws IOException {
         File f = new File(filepath);
+        String path = f.getAbsolutePath();
         if (f.exists())
         {
-           fw = new FileWriter(filepath, true);
+           BufferedReader br = new BufferedReader(new FileReader(path));
+           String line = br.readLine();
+
+           if (line.equals("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\""))
+           {
+               fw = new FileWriter(filepath, true);
+           }
+            else {
+               fw = new FileWriter(filepath, false);
+               fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
+               fw.write("\n");
+           }
+            br.close();
         }
         else
         {
@@ -276,6 +285,7 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
+        filepath = computeFileName(number);
         try {
             fw = createFile(filepath);
         } catch (IOException e1) {

@@ -1,35 +1,25 @@
 package ru.pflb.JMeter.Plugin;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.visualizers.gui.AbstractListenerGui;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import static org.apache.jmeter.util.JMeterUtils.setProperty;
 
 public class CsvLogWriterGui extends AbstractListenerGui {
 
     private static final Logger log = LoggingManager.getLoggerForClass();
     private JTextField filename;
-    //JMeterGUIComponent.getLabelResource()
+    private static final String FILENAME = "filename";
+
     @Override
     public String getLabelResource()
     {
@@ -38,7 +28,7 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         return "CsvLogWriterGui_displayName";
     }
 
-    //JMeterGUIComponent.createTestElement()
+
     @Override
     public TestElement createTestElement(){
         if (log.isDebugEnabled()) { log.debug("CsvLogWriterGui.createTestElement()");}
@@ -54,7 +44,7 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         return te;
     }
 
-    //JMeterGUIComponent.modifyTestElement(TestElement te)
+
     @Override
     public void modifyTestElement(TestElement te)
     {
@@ -104,22 +94,21 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         JButton browseButton = new JButton("Browse...");
         addToPanel(mainPanel, labelConstraints, 2, 1, browseButton);
 
-        /*GuiBuilderHelper.strechItemToComponent(filename, browseButton);
-        browseButton.addActionListener(new BrowseAction(filename));*/
-
-       /* addToPanel(mainPanel, labelConstraints, 0, 2, new JLabel("Overwrite existing file: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 2, overwrite = new JCheckBox());
-
-        addToPanel(mainPanel, labelConstraints, 0, 3, new JLabel("Write File Header: ", JLabel.RIGHT));
-        header = new JTextArea();
-        header.setLineWrap(true);
-        addToPanel(mainPanel, editConstraints, 1, 3, GuiBuilderHelper.getTextAreaScrollPaneContainer(header, 3));*/
+        browseButton.addActionListener(new ActionListener() {
+                                           public void actionPerformed(ActionEvent e) {
+                                               JFileChooser fileopen = new JFileChooser();
+                                               int ret = fileopen.showDialog(null, "Открыть файл");
+                                               if (ret == JFileChooser.APPROVE_OPTION) {
+                                                   File file = fileopen.getSelectedFile();
+                                                   filename.setText(file.getAbsolutePath());
+                                               }
+                                           }
+                                       });
     }
     private void addToPanel(JPanel panel, GridBagConstraints constraints, int col, int row, JComponent component) {
         constraints.gridx = col;
         constraints.gridy = row;
         panel.add(component, constraints);
     }
-
 
 }
