@@ -94,7 +94,8 @@ public class CsvLogWriter
         text.append(event.getResult().getIdleTime());
         text.append(sample.getConnectTime());
 
-        if (Integer.parseInt(responceCode) >= 400) {
+        if (!((responceCode.length() == 3) && (Integer.parseInt(responceCode) < 400)))
+        {
             text.append(sample.getResponseDataAsString().replace("\n", " "));
         }
         else
@@ -246,7 +247,7 @@ public class CsvLogWriter
     public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
         event_count++;
         CsvLogWriter.fw.write(sb.toString());
-        String RotationLimit = getRotation();//Integer.parseInt();
+        String RotationLimit = getRotation();
         if (RotationLimit.equals("")) {
             RotationLimit = "100000";
         }
