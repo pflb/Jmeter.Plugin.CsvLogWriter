@@ -27,7 +27,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">10</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1454099582000</longProp>
         <longProp name="ThreadGroup.end_time">1454099582000</longProp>
@@ -87,8 +87,8 @@ Stack Trace:
       </hashTree>
       <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="pflb@ScvLogWriter" enabled="true">
         <stringProp name="TestPlan.comments">comment</stringProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\CsvLogWriter10000.csv</stringProp>
-        <stringProp name="rotation">10000</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\CSVLOGWRITERTEST\CsvLogWriter10000.csv</stringProp>
+        <stringProp name="rotation">100000</stringProp>
       </ru.pflb.JMeter.Plugin.CsvLogWriter>
       <hashTree/>
       <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">

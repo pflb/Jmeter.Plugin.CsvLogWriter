@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.Date;
 import java.util.stream.Stream;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static ru.pflb.JMeter.Plugin.CsvLogWriterGui.*;
 
@@ -27,15 +28,18 @@ public class CsvLogWriter
         implements SampleListener, Serializable,
         TestStateListener, Remoteable, NoThreadClone {
 
-    private static final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
+    private final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
 
-    private static final String FILENAME = "filename";
-    private static final String ROTATION = "rotation";
-    private static int number = 0;
-    private static int event_count = 0;
-    public static FileWriter fw;
+    private final String FILENAME = "filename";
+    private final String ROTATION = "rotation";
+    private int number = 0;
+    private int event_count = 0;
+    public FileWriter fw;
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
     public String filepath;
+    private Integer rotationLimit = 10000;
+    ConcurrentLinkedQueue<SampleEvent> eventQueue = new ConcurrentLinkedQueue();
+
     public CsvLogWriter() throws IOException {
         super();
     }
@@ -45,7 +49,7 @@ public class CsvLogWriter
      * @param e
      */
 
-    public static String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter, int transactionLevel) {
+    public String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter, int transactionLevel) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
         SampleSaveConfiguration saveConfig = sample.getSaveConfig();
         String i;
@@ -104,9 +108,10 @@ public class CsvLogWriter
         }
 
         text.append(transactionLevel);
-//        for(int var8 = 0; var8 < SampleEvent.getVarCount(); ++var8) {
-//            text.append(event.getVarValue(var8));
-//        }
+
+        for(int var8 = 0; var8 < this.varCount; ++var8) {
+            text.append(event.getVarValue(var8));
+        }
 
         return text.toString();
     }
@@ -180,7 +185,35 @@ public class CsvLogWriter
     @Override
     public void sampleOccurred(SampleEvent e)
     {
-        logSample(e, e.getResult(), 0);
+        this.eventQueue.add(e);
+        writeEventQueueToLog(this.eventQueue);
+
+    }
+
+    void writeEventQueueToLog(ConcurrentLinkedQueue<SampleEvent> events)
+    {
+        synchronized (this)
+        {
+
+            SampleEvent e = events.poll();
+
+            if(this.fw == null)
+            {
+                this.number = 0;
+                this.filepath = computeFileName(number);
+                try {
+                    this.fw = createFile(filepath);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            while (e != null)
+            {
+                logSample(e, e.getResult(), 0);
+                e = events.poll();
+            }
+        }
     }
 
     void logSample(SampleEvent e, SampleResult result, int transactionLevel) {
@@ -203,62 +236,60 @@ public class CsvLogWriter
     public String computeFileName(int number)
     {
         filepath = getFilename();
-        if (number > 0) {
-            int lastPointIndex = filepath.lastIndexOf(".");
-            String dir = filepath.substring(0, lastPointIndex);
-            filepath = dir + "_" + number + filepath.substring(lastPointIndex);
-        }
 
+        File f = new File(filepath);
+        if (f.exists()) {
+            String newfilepath = "";
+            while (f.exists()) {
+                number++;
+                int lastPointIndex = filepath.lastIndexOf(".");
+                String dir = filepath.substring(0, lastPointIndex);
+                newfilepath = dir + "_" + number + filepath.substring(lastPointIndex);
+                f = new File(newfilepath);
+            }
+            filepath = newfilepath;
+        }
+        else {
+            if (number > 0) {
+                int lastPointIndex = filepath.lastIndexOf(".");
+                String dir = filepath.substring(0, lastPointIndex);
+                filepath = dir + "_" + number + filepath.substring(lastPointIndex);
+            }
+        }
         return filepath;
     }
+
+    Integer varCount;
 
     public FileWriter createFile(String filepath) throws IOException {
         File f = new File(filepath);
         String path = f.getAbsolutePath();
-        if (f.exists())
-        {
-           BufferedReader br = new BufferedReader(new FileReader(path));
-           String line = br.readLine();
-
-           if (line.equals("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\""))
-           {
-               fw = new FileWriter(filepath, true);
-           }
-            else {
-               fw = new FileWriter(filepath, false);
-               fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
-               fw.write("\n");
-           }
-            br.close();
+        fw = new FileWriter(filepath, true);
+        fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
+        this.varCount = SampleEvent.getVarCount();
+        for(int resultString = 0; resultString < this.varCount; ++resultString) {
+            fw.write(";\"");
+            fw.write(SampleEvent.getVarName(resultString));
+            fw.write("\"");
         }
-        else
-        {
-           fw = new FileWriter(filepath, true);
-           fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
-           fw.write("\n");
-        }
+        fw.write("\n");
         return fw;
     }
 
-    public synchronized void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
-        event_count++;
-        CsvLogWriter.fw.write(sb.toString());
-        String RotationLimit = getRotation();
-        if (RotationLimit.equals("")) {
-            RotationLimit = "100000";
+
+    public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
+
+            event_count++;
+        this.fw.write(sb.toString());
+
+        if (event_count >= this.rotationLimit) {
+            event_count = 0;
+            closeFile(this.fw);
+            number++;
+            String newfilename = computeFileName(number);
+            this.fw = createFile(newfilename);
         }
-
-        if (event_count >= Integer.parseInt(RotationLimit))
-                {
-                    event_count = 0;
-                    closeFile(fw);
-                    number++;
-                    String newfilename = computeFileName(number);
-                    fw = createFile(newfilename);
-                }
-
-        }
-
+    }
 
     public void closeFile(FileWriter fw) throws IOException {
         fw.close();
@@ -287,13 +318,12 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
-        number = 0;
-        filepath = computeFileName(number);
-        try {
-            fw = createFile(filepath);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+
+        String rotationLimitStr = getRotation();
+        if (rotationLimitStr.equals("")) {
+            rotationLimitStr = "100000";
         }
+        this.rotationLimit = Integer.parseInt(rotationLimitStr);
     }
 
     /**
