@@ -53,14 +53,18 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         super.configureTestElement(te);
         if (te instanceof CsvLogWriter) {
             CsvLogWriter fw = (CsvLogWriter) te;
-            System.out.println("fn1 " + fw.getFilename());
-            fw.setFilename(fw.getFilename());
-            fw.setRotation(fw.getRotation());
-            rotation.setText(fw.getRotation());
-            filename.setText(fw.getFilename());
+            fw.setFilename(filename.getText());
+            fw.setRotation(rotation.getText());
         }
     }
 
+    @Override
+    public void configure(TestElement element) {
+        super.configure(element);
+        CsvLogWriter fw = (CsvLogWriter) element;
+        filename.setText(fw.getFilename());
+        rotation.setText(fw.getRotation());
+    }
 
     @Override
     public String getStaticLabel() {
@@ -104,9 +108,7 @@ public class CsvLogWriterGui extends AbstractListenerGui {
                                        });
         addToPanel(mainPanel, labelConstraints, 0, 2, new JLabel("Rotation: ", JLabel.RIGHT));
         addToPanel(mainPanel, editConstraints, 1, 2, rotation = new JTextField(20));
-        System.out.println("rotation: " + rotation.getText());
         if (rotation.getText().equals("")) {
-            System.out.print("equals");
             rotation.setText("100000");
         }
     }
