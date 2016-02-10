@@ -240,22 +240,25 @@ public class CsvLogWriter
         return fw;
     }
 
-    public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
+    public synchronized void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
         event_count++;
         CsvLogWriter.fw.write(sb.toString());
         String RotationLimit = getRotation();
         if (RotationLimit.equals("")) {
             RotationLimit = "100000";
         }
+
         if (event_count >= Integer.parseInt(RotationLimit))
-        {
-            event_count = 0;
-            closeFile(CsvLogWriter.fw);
-            number++;
-            String newfilename = computeFileName(number);
-            CsvLogWriter.fw = createFile(newfilename);
+                {
+                    event_count = 0;
+                    closeFile(fw);
+                    number++;
+                    String newfilename = computeFileName(number);
+                    fw = createFile(newfilename);
+                }
+
         }
-    }
+
 
     public void closeFile(FileWriter fw) throws IOException {
         fw.close();
@@ -266,7 +269,8 @@ public class CsvLogWriter
      * @param e
      */
     @Override
-    public void sampleStarted(SampleEvent e) {    }
+    public void sampleStarted(SampleEvent e) {
+         }
 
     /**
      * SampleListener.sampleStopped
@@ -283,6 +287,7 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
+        number = 0;
         filepath = computeFileName(number);
         try {
             fw = createFile(filepath);

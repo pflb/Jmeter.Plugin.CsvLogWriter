@@ -49,6 +49,7 @@
       <inspection_tool class="SamePackageImport" enabled="true" level="WARNING" enabled_by_default="true" />
       <inspection_tool class="SingleClassImport" enabled="true" level="WARNING" enabled_by_default="true" />
       <inspection_tool class="StaticImport" enabled="true" level="WARNING" enabled_by_default="true" />
+      <inspection_tool class="SynchronizeOnNonFinalField" enabled="false" level="WARNING" enabled_by_default="false" />
       <inspection_tool class="UNUSED_IMPORT" enabled="false" level="WARNING" enabled_by_default="false" />
     </profile>
     <option name="PROJECT_PROFILE" value="Project Default" />
