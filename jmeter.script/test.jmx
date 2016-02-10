@@ -147,8 +147,8 @@ Stack Trace:
       </hashTree>
       <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="88888888888888888" enabled="true">
         <stringProp name="TestPlan.comments">comment999999999999</stringProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\123httplogtest.csv</stringProp>
-        <stringProp name="rotation">100000</stringProp>
+        <stringProp name="filename">1.txt</stringProp>
+        <stringProp name="rotation">44444444</stringProp>
       </ru.pflb.JMeter.Plugin.CsvLogWriter>
       <hashTree/>
       <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">

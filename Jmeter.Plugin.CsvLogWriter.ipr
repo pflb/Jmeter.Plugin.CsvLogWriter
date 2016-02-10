@@ -198,7 +198,7 @@
     <configuration default="false" name="JMeter" type="JarApplication" factoryName="JAR Application" singleton="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="JAR_PATH" value="$USER_HOME$/Desktop/apache-jmeter-2.13/bin/ApacheJMeter.jar" />
-      <option name="PROGRAM_PARAMETERS" value="-t test.jmx" />
+      <option name="PROGRAM_PARAMETERS" value="-t test.jmx -Jsample_variables=testvar" />
       <option name="WORKING_DIRECTORY" value="C:\Users\a.perevozchikova\Jmeter.Plugin.CsvLogWriter\jmeter.script" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />

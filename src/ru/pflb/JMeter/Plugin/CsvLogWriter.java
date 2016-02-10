@@ -203,15 +203,11 @@ public class CsvLogWriter
     public String computeFileName(int number)
     {
         filepath = getFilename();
-        if (filepath.equals(""))
-        {
-            filepath = "..//CSVLog.csv";
-        }
-            if (number > 0) {
+        if (number > 0) {
             int lastPointIndex = filepath.lastIndexOf(".");
             String dir = filepath.substring(0, lastPointIndex);
             filepath = dir + "_" + number + filepath.substring(lastPointIndex);
-            }
+        }
 
         return filepath;
     }
@@ -337,6 +333,7 @@ public class CsvLogWriter
     public String getRotation() {
         return getPropertyAsString(ROTATION);
     }
+
     public void setRotation(String name) {
         setProperty(ROTATION, name);
     }
