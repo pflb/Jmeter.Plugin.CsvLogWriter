@@ -38,17 +38,19 @@ public class CsvLogWriter
     private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
     public String filepath;
     private Integer rotationLimit = 10000;
-    ConcurrentLinkedQueue<SampleEvent> eventQueue = new ConcurrentLinkedQueue();
 
     public CsvLogWriter() throws IOException {
         super();
     }
 
     /**
-     * SampleListener.sampleOccurred
-     * @param e
+     * Преобразование содытия в строку
+     * @param event
+     * @param sample
+     * @param delimiter
+     * @param transactionLevel
+     * @return
      */
-
     public String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter, int transactionLevel) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
         SampleSaveConfiguration saveConfig = sample.getSaveConfig();
@@ -113,6 +115,8 @@ public class CsvLogWriter
             text.append(event.getVarValue(var8));
         }
 
+        text.addFinish();
+
         return text.toString();
     }
 
@@ -138,6 +142,11 @@ public class CsvLogWriter
         private final StringBuilder sb = new StringBuilder(150);
         private final char[] specials;
         private boolean addDelim;
+
+        public void addFinish()
+        {
+            this.sb.append('\n');
+        }
 
         public StringQuoter(char delim) {
             this.specials = new char[]{delim, '\"', '\r', '\n'};
@@ -185,43 +194,15 @@ public class CsvLogWriter
     @Override
     public void sampleOccurred(SampleEvent e)
     {
-        this.eventQueue.add(e);
-        writeEventQueueToLog(this.eventQueue);
-
-    }
-
-    void writeEventQueueToLog(ConcurrentLinkedQueue<SampleEvent> events)
-    {
-        synchronized (this)
-        {
-
-            SampleEvent e = events.poll();
-
-            if(this.fw == null)
-            {
-                this.number = 0;
-                this.filepath = computeFileName(number);
-                try {
-                    this.fw = createFile(filepath);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-            while (e != null)
-            {
-                logSample(e, e.getResult(), 0);
-                e = events.poll();
-            }
-        }
+        logSample(e, e.getResult(), 0);
     }
 
     void logSample(SampleEvent e, SampleResult result, int transactionLevel) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(resultToDelimitedString(e, result, ";", transactionLevel));
-        sb.append("\n");
+        String csvString = resultToDelimitedString(e, result, ";", transactionLevel);
+
         try {
-            writeEvent(fw,sb);
+            this.fw.write(csvString);
+            //writeEvent(fw,csvString);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -277,17 +258,19 @@ public class CsvLogWriter
     }
 
 
-    public void writeEvent(FileWriter fw, StringBuffer sb) throws IOException {
-
+    public void writeEvent(FileWriter fw, String csvString) throws IOException {
+        synchronized (this) {
             event_count++;
-        this.fw.write(sb.toString());
+            this.fw.write(csvString);
 
-        if (event_count >= this.rotationLimit) {
+            if (event_count >= this.rotationLimit) {
             event_count = 0;
-            closeFile(this.fw);
             number++;
             String newfilename = computeFileName(number);
-            this.fw = createFile(newfilename);
+
+                closeFile(this.fw);
+                this.fw = createFile(newfilename);
+            }
         }
     }
 
@@ -318,6 +301,14 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
+
+        this.number = 0;
+        this.filepath = computeFileName(number);
+        try {
+            this.fw = createFile(filepath);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
         String rotationLimitStr = getRotation();
         if (rotationLimitStr.equals("")) {
