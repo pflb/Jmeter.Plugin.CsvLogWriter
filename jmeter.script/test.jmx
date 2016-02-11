@@ -25,7 +25,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">80</stringProp>
+          <stringProp name="LoopController.loops">10</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">100</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -603,13 +603,13 @@ Stack Trace:
           </hashTree>
         </hashTree>
       </hashTree>
-      <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="pflb@ScvLogWriter" enabled="false">
+      <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="pflb@ScvLogWriter" enabled="true">
         <stringProp name="TestPlan.comments">comment</stringProp>
-        <stringProp name="filename">.\CsvLogWriter10000-4.csv</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\CsvLogWriter10000-4.csv</stringProp>
         <stringProp name="rotation">1000</stringProp>
       </ru.pflb.JMeter.Plugin.CsvLogWriter>
       <hashTree/>
-      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer XML" enabled="true">
+      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer XML" enabled="false">
         <boolProp name="ResultCollector.error_logging">true</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -645,10 +645,10 @@ Stack Trace:
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">.\u08-4.xml</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\u08-4.xml</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer CSV" enabled="true">
+      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer CSV" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -684,7 +684,7 @@ Stack Trace:
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">.\u08-4.csv</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\u08-4.csv</stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
@@ -717,7 +717,7 @@ Stack Trace:
             <threadCounts>true</threadCounts>
           </value>
         </objProp>
-        <stringProp name="filename">.\CsvLogWriter10000_3.csv</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\CsvLogWriter10000-4_2.csv</stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">

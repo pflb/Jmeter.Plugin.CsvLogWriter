@@ -15,10 +15,6 @@ import java.io.IOException;
 public class CsvLogWriterGui extends AbstractListenerGui {
 
     private JTextField filename;
-    private JTextField rotation;
-    private static final String FILENAME = "filename";
-    private static final String ROTATION = "rotation";
-
 
     @Override
     public String getLabelResource()
@@ -54,7 +50,6 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         if (te instanceof CsvLogWriter) {
             CsvLogWriter fw = (CsvLogWriter) te;
             fw.setFilename(filename.getText());
-            fw.setRotation(rotation.getText());
         }
     }
 
@@ -63,7 +58,6 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         super.configure(element);
         CsvLogWriter fw = (CsvLogWriter) element;
         filename.setText(fw.getFilename());
-        rotation.setText(fw.getRotation());
     }
 
     @Override
@@ -106,11 +100,6 @@ public class CsvLogWriterGui extends AbstractListenerGui {
                                                }
                                            }
                                        });
-        addToPanel(mainPanel, labelConstraints, 0, 2, new JLabel("Rotation: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 2, rotation = new JTextField(20));
-        if (rotation.getText().equals("")) {
-            rotation.setText("100000");
-        }
     }
 
     private void addToPanel(JPanel panel, GridBagConstraints constraints, int col, int row, JComponent component) {

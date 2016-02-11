@@ -21,23 +21,17 @@ import static ru.pflb.JMeter.Plugin.CsvLogWriterGui.*;
 //jorphan.jar
 //logkit-2.0.jar
 
-
-
 public class CsvLogWriter
         extends AbstractListenerElement
         implements SampleListener, Serializable,
         TestStateListener, Remoteable, NoThreadClone {
 
-    private final String WRITE_BUFFER_LEN_PROPERTY = "ru.pflb.JMeter.Plugin.CLWBufferSize";
-
+    private static final Logger log = LoggingManager.getLoggerForClass();
     private final String FILENAME = "filename";
-    private final String ROTATION = "rotation";
     private int number = 0;
-    private int event_count = 0;
+
     public FileWriter fw;
-    private final int writeBufferSize = JMeterUtils.getPropDefault(WRITE_BUFFER_LEN_PROPERTY, 1024 * 10);
     public String filepath;
-    private Integer rotationLimit = 10000;
 
     public CsvLogWriter() throws IOException {
         super();
@@ -61,11 +55,7 @@ public class CsvLogWriter
 
         String responceCode = sample.getResponseCode();
         text.append(sample.getResponseCode());
-
-
-
         text.append(sample.getResponseMessage());
-
         text.append(sample.getThreadName());
         text.append(sample.getDataType());
         text.append(sample.isSuccessful());
@@ -90,7 +80,7 @@ public class CsvLogWriter
         text.append(sample.getBytes());
         text.append(sample.getGroupThreads());
         text.append(sample.getAllThreads());
-        text.append((Object)sample.getURL());
+        text.append(sample.getURL());
         text.append(sample.getResultFileName());
         text.append(sample.getLatency());
         text.append(sample.getDataEncodingWithDefault());
@@ -130,10 +120,8 @@ public class CsvLogWriter
                 if(c == quote) {
                     buffer.append(quote);
                 }
-
                 buffer.append(c);
             }
-
             buffer.append(quote);
             return buffer.toString();
     }
@@ -159,7 +147,6 @@ public class CsvLogWriter
             } else {
                 this.addDelim = true;
             }
-
         }
 
         public void append(String s) {
@@ -201,10 +188,10 @@ public class CsvLogWriter
         String csvString = resultToDelimitedString(e, result, ";", transactionLevel);
 
         try {
+
             this.fw.write(csvString);
-            //writeEvent(fw,csvString);
         } catch (IOException e1) {
-            e1.printStackTrace();
+            log.error(e1.getMessage());
         }
 
         SampleResult[] subResults = result.getSubResults();
@@ -214,10 +201,9 @@ public class CsvLogWriter
         }
     }
 
-    public String computeFileName(int number)
-    {
-        filepath = getFilename();
+    Integer varCount;
 
+    public FileWriter createFile(String filepath) throws IOException {
         File f = new File(filepath);
         if (f.exists()) {
             String newfilepath = "";
@@ -230,22 +216,8 @@ public class CsvLogWriter
             }
             filepath = newfilepath;
         }
-        else {
-            if (number > 0) {
-                int lastPointIndex = filepath.lastIndexOf(".");
-                String dir = filepath.substring(0, lastPointIndex);
-                filepath = dir + "_" + number + filepath.substring(lastPointIndex);
-            }
-        }
-        return filepath;
-    }
-
-    Integer varCount;
-
-    public FileWriter createFile(String filepath) throws IOException {
-        File f = new File(filepath);
-        String path = f.getAbsolutePath();
-        fw = new FileWriter(filepath, true);
+        fw = new FileWriter(filepath, false);
+        log.info("CREATED FILE: " + filepath);
         fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
         this.varCount = SampleEvent.getVarCount();
         for(int resultString = 0; resultString < this.varCount; ++resultString) {
@@ -255,23 +227,6 @@ public class CsvLogWriter
         }
         fw.write("\n");
         return fw;
-    }
-
-
-    public void writeEvent(FileWriter fw, String csvString) throws IOException {
-        synchronized (this) {
-            event_count++;
-            this.fw.write(csvString);
-
-            if (event_count >= this.rotationLimit) {
-            event_count = 0;
-            number++;
-            String newfilename = computeFileName(number);
-
-                closeFile(this.fw);
-                this.fw = createFile(newfilename);
-            }
-        }
     }
 
     public void closeFile(FileWriter fw) throws IOException {
@@ -298,23 +253,15 @@ public class CsvLogWriter
      * TestStateListener.testStarted
      */
 
-
     @Override
     public void testStarted() {
-
-        this.number = 0;
-        this.filepath = computeFileName(number);
+        filepath = this.getFilename();
         try {
             this.fw = createFile(filepath);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
 
-        String rotationLimitStr = getRotation();
-        if (rotationLimitStr.equals("")) {
-            rotationLimitStr = "100000";
-        }
-        this.rotationLimit = Integer.parseInt(rotationLimitStr);
     }
 
     /**
@@ -322,8 +269,7 @@ public class CsvLogWriter
      */
     @Override
     public void testStarted(String host)
-    {
-    }
+    {}
 
     /**
      * TestStateListener.testEnded
@@ -334,10 +280,10 @@ public class CsvLogWriter
         try {
             closeFile(fw);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            //e.printStackTrace();
         }
     }
-
     /**
      * TestStateListener.testEnded
      */
@@ -345,7 +291,6 @@ public class CsvLogWriter
     public void testEnded(String host)
     {
     }
-
     //Методы для доступа к настройкам
 
     public void setFilename(String name) {
@@ -355,13 +300,4 @@ public class CsvLogWriter
     public String getFilename() {
         return getPropertyAsString(FILENAME);
     }
-
-    public String getRotation() {
-        return getPropertyAsString(ROTATION);
-    }
-
-    public void setRotation(String name) {
-        setProperty(ROTATION, name);
-    }
-
 }
