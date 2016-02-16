@@ -111,6 +111,9 @@ public class CsvLogWriter
     }
 
     private static String quoteDelimiters(String input, char[] specialChars) {
+        if(input == null)
+            return "";
+
             StringBuilder buffer = new StringBuilder(input.length() + 10);
             char quote = specialChars[1];
             buffer.append(quote);
@@ -201,7 +204,7 @@ public class CsvLogWriter
         }
     }
 
-    Integer varCount;
+    int varCount = 0;
 
     public FileWriter createFile(String filepath) throws IOException {
         File f = new File(filepath);
