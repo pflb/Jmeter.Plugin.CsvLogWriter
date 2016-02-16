@@ -13,6 +13,7 @@ import org.apache.log.Logger;
 import javax.swing.*;
 import java.io.*;
 import java.util.Date;
+import java.util.Map;
 import java.util.stream.Stream;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -30,9 +31,35 @@ public class CsvLogWriter
     private final String FILENAME = "filename";
     private int number = 0;
 
-    public FileWriter fw;
+    public static FileWriter fw;
     public String filepath;
 
+    // Lock used to guard static mutable variables
+    private static final Object LOCK = new Object();
+
+    //@GuardedBy("LOCK")
+    private static int instanceCount; // Keep track of how many instances are active
+    /**
+     * Shutdown Hook that ensures PrintWriter is flushed is CTRL+C or kill is called during a test
+     */
+    //@GuardedBy("LOCK")
+    private static Thread shutdownHook;
+
+    private static final class ShutdownHook implements Runnable {
+
+        @Override
+        public void run() {
+            log.info("Shutdown hook started");
+            synchronized (LOCK) {
+                try {
+                    fw.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info("Shutdown hook ended");
+        }
+    }
     public CsvLogWriter() throws IOException {
         super();
     }
@@ -207,6 +234,18 @@ public class CsvLogWriter
     int varCount = 0;
 
     public FileWriter createFile(String filepath) throws IOException {
+
+            File pdir = new File(filepath).getParentFile();
+            if (pdir != null) {
+                // returns false if directory already exists, so need to check again
+                if(pdir.mkdirs()){
+                    log.info("Folder "+pdir.getAbsolutePath()+" was created");
+                } // else if might have been created by another process so not a problem
+                if (!pdir.exists()){
+                    log.warn("Error creating directories for "+pdir.toString());
+                }
+            }
+
         File f = new File(filepath);
         if (f.exists()) {
             String newfilepath = "";
@@ -262,9 +301,8 @@ public class CsvLogWriter
         try {
             this.fw = createFile(filepath);
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.fatalError(e.getMessage(), e);
         }
-
     }
 
     /**
@@ -272,7 +310,26 @@ public class CsvLogWriter
      */
     @Override
     public void testStarted(String host)
-    {}
+    {synchronized(LOCK){
+        if (instanceCount == 0) { // Only add the hook once
+            shutdownHook = new Thread(new ShutdownHook());
+            Runtime.getRuntime().addShutdownHook(shutdownHook);
+        }
+        instanceCount++;
+        try {
+            createFile(filepath);
+            /*if (getVisualizer() != null) {
+                this.isStats = getVisualizer().isStats();
+            }*/
+        } catch (Exception e) {
+            log.error("", e);
+        }
+    }
+        /*inTest = true;
+
+        if(summariser != null) {
+            summariser.testStarted(host);
+        }*/}
 
     /**
      * TestStateListener.testEnded
@@ -293,6 +350,20 @@ public class CsvLogWriter
     @Override
     public void testEnded(String host)
     {
+        synchronized(LOCK){
+            instanceCount--;
+            if (instanceCount <= 0) {
+                // No need for the hook now
+                // Bug 57088 - prevent (im?)possible NPE
+                if (shutdownHook != null) {
+                    Runtime.getRuntime().removeShutdownHook(shutdownHook);
+                } else {
+                    log.warn("Should not happen: shutdownHook==null, instanceCount=" + instanceCount);
+                }
+                /*finalizeFileOutput();
+                inTest = false;*/
+            }
+        }
     }
     //Методы для доступа к настройкам
 
@@ -303,4 +374,5 @@ public class CsvLogWriter
     public String getFilename() {
         return getPropertyAsString(FILENAME);
     }
+
 }
