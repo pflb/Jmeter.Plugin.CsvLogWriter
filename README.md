@@ -1,7 +1,8 @@
-Скачать плагин можно по ссылке:
-http://wiki.performance-lab.ru/images/3/3d/Ru.pflb.JMeter.Plugin.CsvLogWriter.jar.zip
+**Скачать плагин можно по ссылке:**
 
+**http://wiki.performance-lab.ru/images/3/3d/Ru.pflb.JMeter.Plugin.CsvLogWriter.jar.zip**
 
+ 
 Есть проект Jmeter-plugins.org, с **jp@gc - Flexible File Writer**:
 
 - standard\src\kg\apc\jmeter\reporters:
