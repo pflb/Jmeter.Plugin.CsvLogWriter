@@ -1,12 +1,11 @@
 Manifest-Version: 1.0
-Implementation-Version: 2.13 r1665067
-Built-By: v.smirnov@pflb.ru
-X-Compile-Target-JDK: 1.8
-Specification-Vendor:  Performance Lab LLC
-Specification-Title:  CsvLogWriter
-Implementation-Vendor-Id:  ru.pflb
-Extension-Name:  JMeter
-X-Compile-Source-JDK: 1.8
-Created-By: 1.8.0_45 (Sun Microsystems Inc.)
-Implementation-Vendor:  Performance Lab LLC
-
+Name: ru.pflb/jmeter.listener.CsvLogWriter
+Created-By: InelliJ IDEA 15.0.3 Community Edition (Jet Brains), 1.6.0_45-b06 (Sun Microsystems Inc.)
+Specification-Title: Abstract Listener Element
+Specification-Version: 2.13
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: ru.pflb.jmeter.listener.CsvLogWriter (pflb@CsvLogWriter)
+Implementation-Version: 0.3
+Implementation-Vendor: Performance Lab
+Implementation-Vendor-Id: ru.pflb
+Implementation-URL: https://git.performance-lab.ru/v.smirnov/Jmeter.Plugin.CsvLogWriter

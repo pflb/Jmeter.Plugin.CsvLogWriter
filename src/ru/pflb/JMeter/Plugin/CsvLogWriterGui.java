@@ -30,7 +30,7 @@ public class CsvLogWriterGui extends AbstractListenerGui {
             e.printStackTrace();
         }
         modifyTestElement(te);
-        te.setComment("comment");
+        //te.setComment("comment");
         te.setName("pflb@CsvLogWriter");
         return te;
     }
