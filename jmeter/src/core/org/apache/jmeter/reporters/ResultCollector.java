@@ -483,10 +483,10 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             if (pdir != null) {
                 // returns false if directory already exists, so need to check again
                 if(pdir.mkdirs()){
-                    log.info("Folder "+pdir.getAbsolutePath()+" was created");
+                    log.info("Folder "+pdir.getAbsolutePath() + " was created");
                 } // else if might have been created by another process so not a problem
                 if (!pdir.exists()){
-                    log.warn("Error creating directories for "+pdir.toString());
+                    log.warn("Error creating directories for " + pdir.toString());
                 }
             }
             writer = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(filename,
