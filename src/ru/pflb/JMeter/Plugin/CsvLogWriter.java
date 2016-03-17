@@ -6,18 +6,13 @@ import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.reporters.AbstractListenerElement;
 import org.apache.jmeter.samplers.*;
 import org.apache.jmeter.testelement.TestStateListener;
-import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
-import javax.swing.*;
-import java.io.*;
-import java.util.Date;
-import java.util.Map;
-import java.util.stream.Stream;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import static ru.pflb.JMeter.Plugin.CsvLogWriterGui.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 
 //jorphan.jar
 //logkit-2.0.jar
@@ -90,19 +85,19 @@ public class CsvLogWriter
         i = null;
         AssertionResult[] results = sample.getAssertionResults();
         if(results != null) {
-           for(int i1 = 0; i1 < results.length; ++i1) {
-              i = results[i1].getFailureMessage();
-              if(i != null) {
-                break;
-              }
-           }
+            for(int i1 = 0; i1 < results.length; ++i1) {
+                i = results[i1].getFailureMessage();
+                if(i != null) {
+                    break;
+                }
+            }
         }
 
         if(i != null) {
-           text.append(i);
-         } else {
-           text.append("");
-         }
+            text.append(i);
+        } else {
+            text.append("");
+        }
 
         text.append(sample.getBytes());
         text.append(sample.getGroupThreads());
@@ -141,19 +136,19 @@ public class CsvLogWriter
         if(input == null)
             return "";
 
-            StringBuilder buffer = new StringBuilder(input.length() + 10);
-            char quote = specialChars[1];
-            buffer.append(quote);
+        StringBuilder buffer = new StringBuilder(input.length() + 10);
+        char quote = specialChars[1];
+        buffer.append(quote);
 
-            for(int i = 0; i < input.length(); ++i) {
-                char c = input.charAt(i);
-                if(c == quote) {
-                    buffer.append(quote);
-                }
-                buffer.append(c);
+        for(int i = 0; i < input.length(); ++i) {
+            char c = input.charAt(i);
+            if(c == quote) {
+                buffer.append(quote);
             }
-            buffer.append(quote);
-            return buffer.toString();
+            buffer.append(c);
+        }
+        buffer.append(quote);
+        return buffer.toString();
     }
 
     static final class StringQuoter {
@@ -235,16 +230,16 @@ public class CsvLogWriter
 
     public FileWriter createFile(String filepath) throws IOException {
 
-            File pdir = new File(filepath).getParentFile();
-            if (pdir != null) {
-                // returns false if directory already exists, so need to check again
-                if(pdir.mkdirs()){
-                    log.info("Folder "+pdir.getAbsolutePath()+" was created");
-                } // else if might have been created by another process so not a problem
-                if (!pdir.exists()){
-                    log.warn("Error creating directories for "+pdir.toString());
-                }
+        File pdir = new File(filepath).getParentFile();
+        if (pdir != null) {
+            // returns false if directory already exists, so need to check again
+            if(pdir.mkdirs()){
+                log.info("Folder "+pdir.getAbsolutePath()+" was created");
+            } // else if might have been created by another process so not a problem
+            if (!pdir.exists()){
+                log.warn("Error creating directories for "+pdir.toString());
             }
+        }
 
         File f = new File(filepath);
         if (f.exists()) {
@@ -281,7 +276,7 @@ public class CsvLogWriter
      */
     @Override
     public void sampleStarted(SampleEvent e) {
-         }
+    }
 
     /**
      * SampleListener.sampleStopped

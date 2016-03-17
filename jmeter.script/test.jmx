@@ -8,14 +8,14 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">D:\Project\a.perevozchikova\Jmeter.Plugin.CsvLogWriter\out\artifact\ru.pflb.JMeter.Plugin.CsvLogWriter.jar</stringProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="testvar" elementType="Argument">
             <stringProp name="Argument.name">testvar</stringProp>
-            <stringProp name="Argument.value">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</stringProp>
+            <stringProp name="Argument.value">rrrrrrrrrtttttttttttyyyyyyyy&quot; &apos; , jgj676575675yyyyyyy</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -34,12 +34,11 @@
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.delayedStart">true</boolProp>
       </ThreadGroup>
       <hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller1" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
-          <boolProp name="TransactionController.parent">false</boolProp>
+          <boolProp name="TransactionController.parent">true</boolProp>
         </TransactionController>
         <hashTree>
           <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -49,7 +48,7 @@
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller 2" enabled="true">
               <boolProp name="TransactionController.includeTimers">false</boolProp>
-              <boolProp name="TransactionController.parent">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
             </TransactionController>
             <hashTree>
               <kg.apc.jmeter.samplers.DummySampler guiclass="kg.apc.jmeter.samplers.DummySamplerGui" testclass="kg.apc.jmeter.samplers.DummySampler" testname="jp@gc - Dummy Sampler" enabled="true">
@@ -58,297 +57,8 @@
                 <stringProp name="RESPONSE_CODE">200</stringProp>
                 <stringProp name="RESPONSE_MESSAGE">OK</stringProp>
                 <stringProp name="REQUEST_DATA">Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.
-Dummy Sampler used to simulate requests and responses
 without actual network activity. This helps debugging tests.</stringProp>
                 <stringProp name="RESPONSE_DATA">Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
 without actual network activity. This helps debugging tests.</stringProp>
                 <stringProp name="RESPONSE_TIME">${__Random(100,1000)}</stringProp>
                 <stringProp name="LATENCY">${__Random(1,100)}</stringProp>
@@ -358,231 +68,13 @@ without actual network activity. This helps debugging tests.</stringProp>
           </hashTree>
           <kg.apc.jmeter.samplers.DummySampler guiclass="kg.apc.jmeter.samplers.DummySamplerGui" testclass="kg.apc.jmeter.samplers.DummySampler" testname="jp@gc - Error Sampler" enabled="true">
             <boolProp name="WAITING">true</boolProp>
-            <boolProp name="SUCCESFULL">false</boolProp>
+            <boolProp name="SUCCESFULL">true</boolProp>
             <stringProp name="RESPONSE_CODE">500</stringProp>
             <stringProp name="RESPONSE_MESSAGE">Internal Server Error</stringProp>
             <stringProp name="REQUEST_DATA">Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
-without actual network activity. This helps debugging tests.Dummy Sampler used to simulate requests and responses
 without actual network activity. This helps debugging tests.</stringProp>
             <stringProp name="RESPONSE_DATA">&quot;Error text.&quot;
 Stack Trace:
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
-  at aaaaaaaaaaaaaaaaaaaa:123;
   at aaaaaaaaaaaaaaaaaaaa:123;
   at aaaaaaaaaaaaaaaaaaaa:123;
   at aaaaaaaaaaaaaaaaaaaa:123;
@@ -590,65 +82,16 @@ Stack Trace:
             <stringProp name="RESPONSE_TIME">${__Random(100,1000)}</stringProp>
             <stringProp name="LATENCY">${__Random(1,100)}</stringProp>
           </kg.apc.jmeter.samplers.DummySampler>
-          <hashTree>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
-              <stringProp name="RegexExtractor.useHeaders">message</stringProp>
-              <stringProp name="RegexExtractor.refname">testvar</stringProp>
-              <stringProp name="RegexExtractor.regex">.*</stringProp>
-              <stringProp name="RegexExtractor.template">$0$</stringProp>
-              <stringProp name="RegexExtractor.default">XXXXXXXXXX</stringProp>
-              <stringProp name="RegexExtractor.match_number">1</stringProp>
-            </RegexExtractor>
-            <hashTree/>
-          </hashTree>
+          <hashTree/>
         </hashTree>
       </hashTree>
       <ru.pflb.JMeter.Plugin.CsvLogWriter guiclass="ru.pflb.JMeter.Plugin.CsvLogWriterGui" testclass="ru.pflb.JMeter.Plugin.CsvLogWriter" testname="pflb@ScvLogWriter" enabled="true">
         <stringProp name="TestPlan.comments">comment</stringProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\CsvLogWriter10000-4.csv</stringProp>
-        <stringProp name="rotation">1000</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\CSVLOGWRITERTEST\CsvLogWriter10000.csv</stringProp>
+        <stringProp name="rotation">100000</stringProp>
       </ru.pflb.JMeter.Plugin.CsvLogWriter>
       <hashTree/>
-      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer XML" enabled="false">
-        <boolProp name="ResultCollector.error_logging">true</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>true</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>true</responseData>
-            <samplerData>true</samplerData>
-            <xml>true</xml>
-            <fieldNames>false</fieldNames>
-            <responseHeaders>true</responseHeaders>
-            <requestHeaders>true</requestHeaders>
-            <responseDataOnError>false</responseDataOnError>
-            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <url>true</url>
-            <fileName>true</fileName>
-            <hostname>true</hostname>
-            <threadCounts>true</threadCounts>
-            <sampleCount>true</sampleCount>
-            <idleTime>true</idleTime>
-            <connectTime>true</connectTime>
-          </value>
-        </objProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\u08-4.xml</stringProp>
-      </ResultCollector>
-      <hashTree/>
-      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer CSV" enabled="false">
+      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -684,10 +127,10 @@ Stack Trace:
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\u08-4.csv</stringProp>
+        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\u08.csv</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -717,7 +160,7 @@ Stack Trace:
             <threadCounts>true</threadCounts>
           </value>
         </objProp>
-        <stringProp name="filename">C:\Users\a.perevozchikova\Desktop\TESTFOLDER\CsvLogWriter10000-4_2.csv</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">

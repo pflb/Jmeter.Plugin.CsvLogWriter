@@ -2,8 +2,6 @@ package ru.pflb.JMeter.Plugin;
 
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.visualizers.gui.AbstractListenerGui;
-import org.apache.jorphan.logging.LoggingManager;
-import org.apache.log.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,15 +89,15 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         addToPanel(mainPanel, labelConstraints, 2, 1, browseButton);
 
         browseButton.addActionListener(new ActionListener() {
-                                           public void actionPerformed(ActionEvent e) {
-                                               JFileChooser fileopen = new JFileChooser();
-                                               int ret = fileopen.showDialog(null, "Открыть файл");
-                                               if (ret == JFileChooser.APPROVE_OPTION) {
-                                                   File file = fileopen.getSelectedFile();
-                                                   filename.setText(file.getAbsolutePath());
-                                               }
-                                           }
-                                       });
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileopen = new JFileChooser();
+                int ret = fileopen.showDialog(null, "Открыть файл");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    File file = fileopen.getSelectedFile();
+                    filename.setText(file.getAbsolutePath());
+                }
+            }
+        });
     }
 
     private void addToPanel(JPanel panel, GridBagConstraints constraints, int col, int row, JComponent component) {
