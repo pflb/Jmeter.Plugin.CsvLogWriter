@@ -112,7 +112,7 @@ public class CsvLogWriter
         text.append(event.getResult().getIdleTime());
         text.append(sample.getConnectTime());
 
-        if (!((responceCode.length() == 3) && (Integer.parseInt(responceCode) < 400)))
+        if (!sample.isSuccessful())
         {
             text.append(sample.getResponseDataAsString().replace("\n", " "));
         }
@@ -123,8 +123,8 @@ public class CsvLogWriter
 
         text.append(transactionLevel);
 
-        for(int var8 = 0; var8 < this.varCount; ++var8) {
-            text.append(event.getVarValue(var8));
+        for(int variableIndex = 0; variableIndex < this.varCount; ++variableIndex) {
+            text.append(event.getVarValue(variableIndex));
         }
 
         text.addFinish();
