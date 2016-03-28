@@ -23,16 +23,16 @@ public class CsvLogWriterGui extends AbstractListenerGui {
 
     @Override
     public TestElement createTestElement(){
-        TestElement te = null;
+        TestElement testElement = null;
         try {
-            te = new CsvLogWriter();
+            testElement = new CsvLogWriter();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        modifyTestElement(te);
-        //te.setComment("comment");
-        te.setName("pflb@CsvLogWriter");
-        return te;
+        modifyTestElement(testElement);
+        testElement.setComment("Документация: http://wiki.performance-lab.ru/index.php/Плагин_CsvLogWriter");
+        testElement.setName("pflb@CsvLogWriter");
+        return testElement;
     }
 
     public CsvLogWriterGui()
@@ -42,20 +42,20 @@ public class CsvLogWriterGui extends AbstractListenerGui {
     }
 
     @Override
-    public void modifyTestElement(TestElement te)
+    public void modifyTestElement(TestElement testElement)
     {
-        super.configureTestElement(te);
-        if (te instanceof CsvLogWriter) {
-            CsvLogWriter fw = (CsvLogWriter) te;
+        super.configureTestElement(testElement);
+        if (testElement instanceof CsvLogWriter) {
+            CsvLogWriter fw = (CsvLogWriter) testElement;
             fw.setFilename(filename.getText());
         }
     }
 
     @Override
-    public void configure(TestElement element) {
-        super.configure(element);
-        CsvLogWriter fw = (CsvLogWriter) element;
-        filename.setText(fw.getFilename());
+    public void configure(TestElement testElement) {
+        super.configure(testElement);
+        CsvLogWriter csvLogWriter = (CsvLogWriter) testElement;
+        filename.setText(csvLogWriter.getFilename());
     }
 
     @Override
