@@ -70,58 +70,123 @@ public class CsvLogWriter
     public String resultToDelimitedString(SampleEvent event, SampleResult sample, String delimiter, int transactionLevel) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
         SampleSaveConfiguration saveConfig = sample.getSaveConfig();
-        String i;
-        text.append(sample.getTimeStamp());
-        text.append(sample.getTime());
-        text.append(sample.getSampleLabel());
 
-        String responceCode = sample.getResponseCode();
-        text.append(sample.getResponseCode());
-        text.append(sample.getResponseMessage());
-        text.append(sample.getThreadName());
-        text.append(sample.getDataType());
-        text.append(sample.isSuccessful());
+        text.append(sample.getTimeStamp()); // timeStamp - 1
+        text.append(sample.getTime());  // elapsedTime - 2
+        text.append(sample.getSampleLabel()); // label - 3
 
-        i = null;
+        text.append(sample.getResponseCode()); // responseCode - 4
+        text.append(sample.getResponseMessage()); // responseMessage - 5
+        text.append(sample.getThreadName()); // threadName - duplicate  event.threadGroup - 6
+        text.append(sample.getDataType()); // dataType - 7
+        text.append(sample.isSuccessful()); // success - 8
+
+        // TODO: исправить логирование AssertionResults - заносить все неуспешные результаты в лог
+        String assertionResults = null;
+        StringBuilder assertionResultsBuilder = null;
         AssertionResult[] results = sample.getAssertionResults();
         if(results != null) {
-            for(int i1 = 0; i1 < results.length; ++i1) {
-                i = results[i1].getFailureMessage();
-                if(i != null) {
-                    break;
+            for(AssertionResult result: results)
+            {
+                if(result.isError() || result.isFailure())
+                {
+                    if(assertionResultsBuilder == null)
+                    {
+                        assertionResultsBuilder = new StringBuilder(150);
+                        assertionResultsBuilder.append('[');
+                        assertionResultsBuilder.append('{');
+                    }
+                    else
+                    {
+                        assertionResultsBuilder.append(",{");
+                    }
+                    assertionResultsBuilder.append("\"name\":\"");
+                    assertionResultsBuilder.append(result.getName());
+                    assertionResultsBuilder.append("\", \"failureMessage\":\"");
+                    assertionResultsBuilder.append(result.getFailureMessage());
+                    assertionResultsBuilder.append("\", \"isError\":\"");
+                    assertionResultsBuilder.append(result.isError());
+                    assertionResultsBuilder.append("\", \"isFailure\":\"");
+                    assertionResultsBuilder.append(result.isFailure());
+                    assertionResultsBuilder.append("\"");
+
+                    assertionResultsBuilder.append("}");
                 }
             }
+            if(assertionResultsBuilder != null)
+                assertionResultsBuilder.append(']');
         }
 
-        if(i != null) {
-            text.append(i);
+        if(assertionResultsBuilder != null) {
+            text.append(assertionResultsBuilder.toString()); // assertionResults - 9
         } else {
             text.append("");
         }
 
-        text.append(sample.getBytes());
-        text.append(sample.getGroupThreads());
-        text.append(sample.getAllThreads());
-        text.append(sample.getURL());
-        text.append(sample.getResultFileName());
-        text.append(sample.getLatency());
-        text.append(sample.getDataEncodingWithDefault());
-        text.append(sample.getSampleCount());
-        text.append(sample.getErrorCount());
-        text.append(event.getHostname());
-        text.append(event.getResult().getIdleTime());
-        text.append(sample.getConnectTime());
+        text.append(sample.getBytes()); // размер ответа (responseData.length, headersSize, bodySize - 10
+        text.append(sample.getGroupThreads()); // groupThreads - 11
+        text.append(sample.getAllThreads()); // allThreads - 12
+        text.append(sample.getURL()); // location - 13
+        text.append(sample.getResultFileName()); // resultFileName - 14
+        text.append(sample.getLatency()); // latency - 15
+        text.append(sample.getDataEncodingWithDefault()); // dataEncoding - 16
+        text.append(sample.getSampleCount()); // sampleCount - 17
+        text.append(sample.getErrorCount()); // 0 или 1 (success) - 18
+        text.append(event.getHostname()); // hostname - 19
+        text.append(event.getResult().getIdleTime()); // idleTime - 20
+        text.append(sample.getConnectTime()); // connectTime - 21
+
+
+        text.append(sample.getHeadersSize()); // headersSize - 23
+        text.append(sample.getBodySize()); // bodySize - 24
+        text.append(sample.getContentType()); // contentType - 25
+        text.append(sample.getEndTime()); // endTime - 26
+        text.append(sample.isMonitor()); // isMonitor - 27
+
+        StringBuilder sbThreadNameLabel = new StringBuilder(sample.getThreadName().length() + sample.getSampleLabel().length() + 1);
+        sbThreadNameLabel.append(sample.getThreadName());
+        sbThreadNameLabel.append(':');
+        sbThreadNameLabel.append(sample.getSampleLabel());
+            text.append(sbThreadNameLabel.toString()); // threadName + label - 28
+
+        SampleResult parent = sample.getParent();
+        if(parent != null) {
+            StringBuilder sbThreadNameLabelParent = new StringBuilder(parent.getThreadName().length() + parent.getSampleLabel().length() + 1);
+            sbThreadNameLabelParent.append(parent.getThreadName());
+            sbThreadNameLabelParent.append(':');
+            sbThreadNameLabelParent.append(parent.getSampleLabel());
+            text.append(sbThreadNameLabelParent.toString()); // parent - 29
+        }
+        else {
+            text.append("");
+        }
+        text.append(sample.getStartTime()); // startTime - 30
+        text.append(sample.isStopTest()); // stopTest - 31
+        text.append(sample.isStopTestNow()); // stopTestNow - 32
+        text.append(sample.isStopThread()); // stopThread - 33
+        text.append(sample.isStartNextThreadLoop()); // startNextThreadLoop - 34
+        //text.append(event.getHostname()); // hostname - 35
+        text.append(event.isTransactionSampleEvent()); // isTransactionSampleEvent - 36
+
+        text.append(transactionLevel); // transactionLevel - 37
 
         if (!sample.isSuccessful())
         {
-            text.append(sample.getResponseDataAsString().replace("\n", " "));
+            text.append(sample.getResponseDataAsString()); // responseDataAsString - 38
+            text.append(sample.getRequestHeaders()); // requestHeaders - 39
+            text.append(sample.getResponseData()); // responseData - 40
+            text.append(sample.getResponseHeaders()); // responseHeaders - 41
+            // TODO: проверить
+            //text.append(sample.getSamplerData()); // samplerData - 42
         }
         else
         {
             text.append("");
+            text.append("");
+            text.append("");
+            text.append("");
+            //text.append("");
         }
-
-        text.append(transactionLevel);
 
         for(int variableIndex = 0; variableIndex < this.varCount; ++variableIndex) {
             text.append(event.getVarValue(variableIndex));
@@ -131,6 +196,8 @@ public class CsvLogWriter
 
         return text.toString();
     }
+
+
 
     private static String quoteDelimiters(String input, char[] specialChars) {
         if(input == null)
@@ -198,6 +265,13 @@ public class CsvLogWriter
             this.sb.append(b);
         }
 
+        public void append(byte[] binaryData)
+        {
+            String stringData = org.apache.commons.codec.binary.Base64.encodeBase64String(binaryData);
+            append(stringData);
+
+        }
+
         public String toString() {
             return this.sb.toString();
         }
@@ -213,8 +287,7 @@ public class CsvLogWriter
         String csvString = resultToDelimitedString(e, result, ";", transactionLevel);
 
         try {
-
-            this.fw.write(csvString);
+            fw.write(csvString);
         } catch (IOException e1) {
             log.error(e1.getMessage());
         }
@@ -228,41 +301,89 @@ public class CsvLogWriter
 
     int varCount = 0;
 
-    public FileWriter createFile(String filepath) throws IOException {
+    public FileWriter createFile(String logFilePath) throws IOException {
 
-        File pdir = new File(filepath).getParentFile();
-        if (pdir != null) {
+        File parentDirectory = new File(logFilePath).getParentFile();
+        if (parentDirectory != null) {
             // returns false if directory already exists, so need to check again
-            if(pdir.mkdirs()){
-                log.info("Folder "+pdir.getAbsolutePath()+" was created");
+            if(parentDirectory.mkdirs()){
+                log.info("Folder "+parentDirectory.getAbsolutePath()+" was created");
             } // else if might have been created by another process so not a problem
-            if (!pdir.exists()){
-                log.warn("Error creating directories for "+pdir.toString());
+            if (!parentDirectory.exists()){
+                log.warn("Error creating directories for "+parentDirectory.toString());
             }
         }
 
-        File f = new File(filepath);
-        if (f.exists()) {
-            String newfilepath = "";
-            while (f.exists()) {
+        File logFile = new File(logFilePath);
+        if (logFile.exists()) {
+            String logFilePathNew = "";
+            while (logFile.exists()) {
                 number++;
-                int lastPointIndex = filepath.lastIndexOf(".");
-                String dir = filepath.substring(0, lastPointIndex);
-                newfilepath = dir + "_" + number + filepath.substring(lastPointIndex);
-                f = new File(newfilepath);
+                int lastPointIndex = logFilePath.lastIndexOf(".");
+                String logFilePathBaseName = logFilePath.substring(0, lastPointIndex);
+                logFilePathNew = logFilePathBaseName + "_" + number + logFilePath.substring(lastPointIndex);
+                logFile = new File(logFilePathNew);
             }
-            filepath = newfilepath;
+            logFilePath = logFilePathNew;
         }
-        fw = new FileWriter(filepath, false);
-        log.info("CREATED FILE: " + filepath);
-        fw.write("timeStamp;elapsed;label;responseCode;responseMessage;threadName;dataType;success;failureMessage;bytes;grpThreads;allThreads;URL;Filename;Latency;Encoding;SampleCount;ErrorCount;Hostname;IdleTime;Connect;\"responseData\";\"transactionLevel\"");
+
+        StringBuilder logHeaderLine = new StringBuilder(100);
+
+        logHeaderLine.append("timeStamp"); // timeStamp
+        logHeaderLine.append(";elapsed"); // elapsedTime
+        logHeaderLine.append(";label"); // label
+        logHeaderLine.append(";responseCode"); // responseCode
+        logHeaderLine.append(";responseMessage"); // responseMessage
+        logHeaderLine.append(";threadName"); // threadName - duplicate  event.threadGroup
+        logHeaderLine.append(";dataType"); // dataType
+        logHeaderLine.append(";success"); // success
+        logHeaderLine.append(";failureMessage"); // failureMessage
+        logHeaderLine.append(";bytes"); // размер ответа (responseData.length, headersSize, bodySize
+        logHeaderLine.append(";grpThreads"); // groupThreads
+        logHeaderLine.append(";allThreads"); // allThreads
+        logHeaderLine.append(";URL"); // location
+        logHeaderLine.append(";Filename"); // resultFileName
+        logHeaderLine.append(";Latency"); // latency
+        logHeaderLine.append(";Encoding"); // dataEncoding
+        logHeaderLine.append(";SampleCount"); // sampleCount
+        logHeaderLine.append(";ErrorCount"); // 0 или 1 (success)
+        logHeaderLine.append(";Hostname"); // hostname
+        logHeaderLine.append(";IdleTime"); // idleTime
+        logHeaderLine.append(";Connect"); // connectTime
+
+        logHeaderLine.append(";\"headersSize\""); // headersSize - 23
+        logHeaderLine.append(";\"bodySize\""); // bodySize - 24
+        logHeaderLine.append(";\"contentType\""); // contentType - 25
+        logHeaderLine.append(";\"endTime\""); // endTime - 26
+        logHeaderLine.append(";\"isMonitor\""); // isMonitor - 27
+        logHeaderLine.append(";\"threadName_label\""); // threadName + label - 28
+        logHeaderLine.append(";\"parent_threadName_label\""); // parent - threadName + label - 29
+        logHeaderLine.append(";\"startTime\""); // startTime - 30
+        logHeaderLine.append(";\"stopTest\""); // stopTest - 31
+        logHeaderLine.append(";\"stopTestNow\""); // stopTestNow - 32
+        logHeaderLine.append(";\"stopThread\""); // stopThread - 33
+        logHeaderLine.append(";\"startNextThreadLoop\""); // startNextThreadLoop - 34
+        logHeaderLine.append(";\"isTransactionSampleEvent\""); // isTransactionSampleEvent - 36
+        logHeaderLine.append(";\"transactionLevel\""); // transactionLevel - 37
+        logHeaderLine.append(";\"responseDataAsString\""); // responseDataAsString - 38
+        logHeaderLine.append(";\"requestHeaders\""); // requestHeaders - 39
+        logHeaderLine.append(";\"responseData\""); // responseData - 40
+        logHeaderLine.append(";\"responseHeaders\""); // responseHeaders - 41
+
         this.varCount = SampleEvent.getVarCount();
-        for(int resultString = 0; resultString < this.varCount; ++resultString) {
-            fw.write(";\"");
-            fw.write(SampleEvent.getVarName(resultString));
-            fw.write("\"");
+        if(this.varCount > 0) {
+            for (int resultString = 0; resultString < this.varCount; ++resultString) {
+                logHeaderLine.append(";\"");
+                logHeaderLine.append(SampleEvent.getVarName(resultString));
+                logHeaderLine.append("\"");
+            }
+
         }
-        fw.write("\n");
+        logHeaderLine.append('\n');
+
+        fw = new FileWriter(logFilePath, false);
+        log.info("CREATED FILE: " + logFilePath);
+        fw.write(logHeaderLine.toString());
         return fw;
     }
 
@@ -292,9 +413,9 @@ public class CsvLogWriter
 
     @Override
     public void testStarted() {
-        filepath = this.getFilename();
+        this.filepath = this.getFilename();
         try {
-            this.fw = createFile(filepath);
+            this.fw = createFile(this.filepath);
         } catch (IOException e) {
             log.fatalError(e.getMessage(), e);
         }
@@ -305,26 +426,20 @@ public class CsvLogWriter
      */
     @Override
     public void testStarted(String host)
-    {synchronized(LOCK){
-        if (instanceCount == 0) { // Only add the hook once
-            shutdownHook = new Thread(new ShutdownHook());
-            Runtime.getRuntime().addShutdownHook(shutdownHook);
-        }
-        instanceCount++;
-        try {
-            createFile(filepath);
-            /*if (getVisualizer() != null) {
-                this.isStats = getVisualizer().isStats();
-            }*/
-        } catch (Exception e) {
-            log.error("", e);
+    {
+        synchronized(LOCK) {
+            if (instanceCount == 0) { // Only add the hook once
+                shutdownHook = new Thread(new ShutdownHook());
+                Runtime.getRuntime().addShutdownHook(shutdownHook);
+            }
+            instanceCount++;
+            try {
+                createFile(this.filepath);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
         }
     }
-        /*inTest = true;
-
-        if(summariser != null) {
-            summariser.testStarted(host);
-        }*/}
 
     /**
      * TestStateListener.testEnded
@@ -335,8 +450,7 @@ public class CsvLogWriter
         try {
             closeFile(fw);
         } catch (IOException e) {
-            log.error(e.getMessage());
-            //e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
     /**
