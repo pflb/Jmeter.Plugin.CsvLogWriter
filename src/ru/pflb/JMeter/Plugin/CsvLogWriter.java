@@ -1,6 +1,5 @@
 package ru.pflb.JMeter.Plugin;
 
-
 import org.apache.jmeter.assertions.AssertionResult;
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.reporters.AbstractListenerElement;

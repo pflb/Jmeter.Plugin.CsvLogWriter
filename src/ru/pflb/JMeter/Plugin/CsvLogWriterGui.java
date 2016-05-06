@@ -15,6 +15,7 @@ import java.io.IOException;
 public class CsvLogWriterGui extends AbstractListenerGui {
 
     private JTextField filename;
+
     private JCheckBox additionalParamsCheckBox = new JCheckBox("Additional parameters");
     private JCheckBox responseDataCheckBox = new JCheckBox("Response data");
     private JCheckBox userVariableCheckBox = new JCheckBox("User variables");
