@@ -17,7 +17,7 @@ import java.io.Serializable;
 //jorphan.jar
 //logkit-2.0.jar
 
-public class CsvLogWriter
+    public class CsvLogWriter
         extends AbstractListenerElement
         implements SampleListener, Serializable,
         TestStateListener, Remoteable, NoThreadClone {
@@ -25,6 +25,10 @@ public class CsvLogWriter
     private static final Logger log = LoggingManager.getLoggerForClass();
     private final String FILENAME = "filename";
     private int number = 0;
+
+    private final String checkAdditionalParams = "checkAdditionalParams";
+    private final String checkResponseData = "checkResponseData";
+    private final String checkUserVariables = "checkUserVariables";
 
     public static FileWriter fw;
     public String filepath;
@@ -85,19 +89,14 @@ public class CsvLogWriter
         String assertionResults = null;
         StringBuilder assertionResultsBuilder = null;
         AssertionResult[] results = sample.getAssertionResults();
-        if(results != null) {
-            for(AssertionResult result: results)
-            {
-                if(result.isError() || result.isFailure())
-                {
-                    if(assertionResultsBuilder == null)
-                    {
+        if (results != null) {
+            for (AssertionResult result : results) {
+                if (result.isError() || result.isFailure()) {
+                    if (assertionResultsBuilder == null) {
                         assertionResultsBuilder = new StringBuilder(150);
                         assertionResultsBuilder.append('[');
                         assertionResultsBuilder.append('{');
-                    }
-                    else
-                    {
+                    } else {
                         assertionResultsBuilder.append(",{");
                     }
                     assertionResultsBuilder.append("\"name\":\"");
@@ -113,11 +112,11 @@ public class CsvLogWriter
                     assertionResultsBuilder.append("}");
                 }
             }
-            if(assertionResultsBuilder != null)
+            if (assertionResultsBuilder != null)
                 assertionResultsBuilder.append(']');
         }
 
-        if(assertionResultsBuilder != null) {
+        if (assertionResultsBuilder != null) {
             text.append(assertionResultsBuilder.toString()); // assertionResults - 9
         } else {
             text.append("");
@@ -136,60 +135,61 @@ public class CsvLogWriter
         text.append(event.getResult().getIdleTime()); // idleTime - 20
         text.append(sample.getConnectTime()); // connectTime - 21
 
+        if (getCheckAdditionalParams()) {
 
-        text.append(sample.getHeadersSize()); // headersSize - 23
-        text.append(sample.getBodySize()); // bodySize - 24
-        text.append(sample.getContentType()); // contentType - 25
-        text.append(sample.getEndTime()); // endTime - 26
-        text.append(sample.isMonitor()); // isMonitor - 27
+            text.append(sample.getHeadersSize()); // headersSize - 23
+            text.append(sample.getBodySize()); // bodySize - 24
+            text.append(sample.getContentType()); // contentType - 25
+            text.append(sample.getEndTime()); // endTime - 26
+            text.append(sample.isMonitor()); // isMonitor - 27
 
-        StringBuilder sbThreadNameLabel = new StringBuilder(sample.getThreadName().length() + sample.getSampleLabel().length() + 1);
-        sbThreadNameLabel.append(sample.getThreadName());
-        sbThreadNameLabel.append(':');
-        sbThreadNameLabel.append(sample.getSampleLabel());
+            StringBuilder sbThreadNameLabel = new StringBuilder(sample.getThreadName().length() + sample.getSampleLabel().length() + 1);
+            sbThreadNameLabel.append(sample.getThreadName());
+            sbThreadNameLabel.append(':');
+            sbThreadNameLabel.append(sample.getSampleLabel());
             text.append(sbThreadNameLabel.toString()); // threadName + label - 28
 
-        SampleResult parent = sample.getParent();
-        if(parent != null) {
-            StringBuilder sbThreadNameLabelParent = new StringBuilder(parent.getThreadName().length() + parent.getSampleLabel().length() + 1);
-            sbThreadNameLabelParent.append(parent.getThreadName());
-            sbThreadNameLabelParent.append(':');
-            sbThreadNameLabelParent.append(parent.getSampleLabel());
-            text.append(sbThreadNameLabelParent.toString()); // parent - 29
-        }
-        else {
-            text.append("");
-        }
-        text.append(sample.getStartTime()); // startTime - 30
-        text.append(sample.isStopTest()); // stopTest - 31
-        text.append(sample.isStopTestNow()); // stopTestNow - 32
-        text.append(sample.isStopThread()); // stopThread - 33
-        text.append(sample.isStartNextThreadLoop()); // startNextThreadLoop - 34
-        //text.append(event.getHostname()); // hostname - 35
-        text.append(event.isTransactionSampleEvent()); // isTransactionSampleEvent - 36
+            SampleResult parent = sample.getParent();
+            if (parent != null) {
+                StringBuilder sbThreadNameLabelParent = new StringBuilder(parent.getThreadName().length() + parent.getSampleLabel().length() + 1);
+                sbThreadNameLabelParent.append(parent.getThreadName());
+                sbThreadNameLabelParent.append(':');
+                sbThreadNameLabelParent.append(parent.getSampleLabel());
+                text.append(sbThreadNameLabelParent.toString()); // parent - 29
+            } else {
+                text.append("");
+            }
+            text.append(sample.getStartTime()); // startTime - 30
+            text.append(sample.isStopTest()); // stopTest - 31
+            text.append(sample.isStopTestNow()); // stopTestNow - 32
+            text.append(sample.isStopThread()); // stopThread - 33
+            text.append(sample.isStartNextThreadLoop()); // startNextThreadLoop - 34
+            //text.append(event.getHostname()); // hostname - 35
+            text.append(event.isTransactionSampleEvent()); // isTransactionSampleEvent - 36
 
-        text.append(transactionLevel); // transactionLevel - 37
-
-        if (!sample.isSuccessful())
-        {
-            text.append(sample.getResponseDataAsString()); // responseDataAsString - 38
-            text.append(sample.getRequestHeaders()); // requestHeaders - 39
-            text.append(sample.getResponseData()); // responseData - 40
-            text.append(sample.getResponseHeaders()); // responseHeaders - 41
-            // TODO: проверить
-            //text.append(sample.getSamplerData()); // samplerData - 42
+            text.append(transactionLevel); // transactionLevel - 37
         }
-        else
-        {
-            text.append("");
-            text.append("");
-            text.append("");
-            text.append("");
-            //text.append("");
+        if (getCheckResponseData()) {
+            if (!sample.isSuccessful()) {
+                text.append(sample.getResponseDataAsString()); // responseDataAsString - 38
+                text.append(sample.getRequestHeaders()); // requestHeaders - 39
+                text.append(sample.getResponseData()); // responseData - 40
+                text.append(sample.getResponseHeaders()); // responseHeaders - 41
+                // TODO: проверить
+                //text.append(sample.getSamplerData()); // samplerData - 42
+            } else {
+                text.append("");
+                text.append("");
+                text.append("");
+                text.append("");
+                //text.append("");
+            }
         }
 
-        for(int variableIndex = 0; variableIndex < this.varCount; ++variableIndex) {
-            text.append(event.getVarValue(variableIndex));
+        if (getCheckUserVariables()){
+            for (int variableIndex = 0; variableIndex < this.varCount; ++variableIndex) {
+                text.append(event.getVarValue(variableIndex));
+            }
         }
 
         text.addFinish();
@@ -351,33 +351,40 @@ public class CsvLogWriter
         logHeaderLine.append(";IdleTime"); // idleTime
         logHeaderLine.append(";Connect"); // connectTime
 
-        logHeaderLine.append(";\"headersSize\""); // headersSize - 23
-        logHeaderLine.append(";\"bodySize\""); // bodySize - 24
-        logHeaderLine.append(";\"contentType\""); // contentType - 25
-        logHeaderLine.append(";\"endTime\""); // endTime - 26
-        logHeaderLine.append(";\"isMonitor\""); // isMonitor - 27
-        logHeaderLine.append(";\"threadName_label\""); // threadName + label - 28
-        logHeaderLine.append(";\"parent_threadName_label\""); // parent - threadName + label - 29
-        logHeaderLine.append(";\"startTime\""); // startTime - 30
-        logHeaderLine.append(";\"stopTest\""); // stopTest - 31
-        logHeaderLine.append(";\"stopTestNow\""); // stopTestNow - 32
-        logHeaderLine.append(";\"stopThread\""); // stopThread - 33
-        logHeaderLine.append(";\"startNextThreadLoop\""); // startNextThreadLoop - 34
-        logHeaderLine.append(";\"isTransactionSampleEvent\""); // isTransactionSampleEvent - 36
-        logHeaderLine.append(";\"transactionLevel\""); // transactionLevel - 37
-        logHeaderLine.append(";\"responseDataAsString\""); // responseDataAsString - 38
-        logHeaderLine.append(";\"requestHeaders\""); // requestHeaders - 39
-        logHeaderLine.append(";\"responseData\""); // responseData - 40
-        logHeaderLine.append(";\"responseHeaders\""); // responseHeaders - 41
+        if (getCheckAdditionalParams()) {
+            logHeaderLine.append(";\"headersSize\""); // headersSize - 23
+            logHeaderLine.append(";\"bodySize\""); // bodySize - 24
+            logHeaderLine.append(";\"contentType\""); // contentType - 25
+            logHeaderLine.append(";\"endTime\""); // endTime - 26
+            logHeaderLine.append(";\"isMonitor\""); // isMonitor - 27
+            logHeaderLine.append(";\"threadName_label\""); // threadName + label - 28
+            logHeaderLine.append(";\"parent_threadName_label\""); // parent - threadName + label - 29
+            logHeaderLine.append(";\"startTime\""); // startTime - 30
+            logHeaderLine.append(";\"stopTest\""); // stopTest - 31
+            logHeaderLine.append(";\"stopTestNow\""); // stopTestNow - 32
+            logHeaderLine.append(";\"stopThread\""); // stopThread - 33
+            logHeaderLine.append(";\"startNextThreadLoop\""); // startNextThreadLoop - 34
+            logHeaderLine.append(";\"isTransactionSampleEvent\""); // isTransactionSampleEvent - 36
+            logHeaderLine.append(";\"transactionLevel\""); // transactionLevel - 37
+        }
 
-        this.varCount = SampleEvent.getVarCount();
-        if(this.varCount > 0) {
-            for (int resultString = 0; resultString < this.varCount; ++resultString) {
-                logHeaderLine.append(";\"");
-                logHeaderLine.append(SampleEvent.getVarName(resultString));
-                logHeaderLine.append("\"");
+        if (getCheckResponseData()) {
+            logHeaderLine.append(";\"responseDataAsString\""); // responseDataAsString - 38
+            logHeaderLine.append(";\"requestHeaders\""); // requestHeaders - 39
+            logHeaderLine.append(";\"responseData\""); // responseData - 40
+            logHeaderLine.append(";\"responseHeaders\""); // responseHeaders - 41
+        }
+
+        if (getCheckUserVariables()) {
+            this.varCount = SampleEvent.getVarCount();
+
+            if (this.varCount > 0) {
+                for (int resultString = 0; resultString < this.varCount; ++resultString) {
+                    logHeaderLine.append(";\"");
+                    logHeaderLine.append(SampleEvent.getVarName(resultString));
+                    logHeaderLine.append("\"");
+                }
             }
-
         }
         logHeaderLine.append('\n');
 
@@ -484,4 +491,27 @@ public class CsvLogWriter
         return getPropertyAsString(FILENAME);
     }
 
+    public void setCheckAdditionalParams(boolean value) {
+            setProperty(checkAdditionalParams, value);
+        }
+
+    public boolean getCheckAdditionalParams() {
+            return getPropertyAsBoolean(checkAdditionalParams);
+    }
+
+    public void setCheckResponseData(boolean value) {
+            setProperty(checkResponseData, value);
+        }
+
+    public boolean getCheckResponseData() {
+            return getPropertyAsBoolean(checkResponseData);
+    }
+
+    public void setCheckUserVariables(boolean value) {
+            setProperty(checkUserVariables, value);
+        }
+
+    public boolean getCheckUserVariables() {
+            return getPropertyAsBoolean(checkUserVariables);
+        }
 }

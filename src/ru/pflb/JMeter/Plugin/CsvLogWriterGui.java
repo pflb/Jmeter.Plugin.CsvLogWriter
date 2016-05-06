@@ -4,6 +4,8 @@ import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.visualizers.gui.AbstractListenerGui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +15,9 @@ import java.io.IOException;
 public class CsvLogWriterGui extends AbstractListenerGui {
 
     private JTextField filename;
+    private JCheckBox additionalParamsCheckBox = new JCheckBox("Additional parameters");
+    private JCheckBox responseDataCheckBox = new JCheckBox("Response data");
+    private JCheckBox userVariableCheckBox = new JCheckBox("User variables");
 
     @Override
     public String getLabelResource()
@@ -47,7 +52,10 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         super.configureTestElement(testElement);
         if (testElement instanceof CsvLogWriter) {
             CsvLogWriter fw = (CsvLogWriter) testElement;
-            fw.setFilename(filename.getText());
+            fw.setFilename(filename.getText());//String.valueOf(
+            fw.setCheckAdditionalParams(additionalParamsCheckBox.isSelected());
+            fw.setCheckResponseData(responseDataCheckBox.isSelected());
+            fw.setCheckUserVariables(userVariableCheckBox.isSelected());
         }
     }
 
@@ -55,14 +63,17 @@ public class CsvLogWriterGui extends AbstractListenerGui {
     public void configure(TestElement testElement) {
         super.configure(testElement);
         CsvLogWriter csvLogWriter = (CsvLogWriter) testElement;
-        filename.setText(csvLogWriter.getFilename());
+        filename.setText(csvLogWriter.getFilename());//Boolean.valueOf(
+        additionalParamsCheckBox.setSelected(csvLogWriter.getCheckAdditionalParams());
+        responseDataCheckBox.setSelected(csvLogWriter.getCheckResponseData());
+        userVariableCheckBox.setSelected(csvLogWriter.getCheckUserVariables());
+
     }
 
     @Override
     public String getStaticLabel() {
         return "pflb@CsvLogWriter";
     }
-
 
     private void init() {
         setLayout(new BorderLayout(0, 5));
@@ -76,10 +87,10 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         add(container, BorderLayout.CENTER);
 
         GridBagConstraints labelConstraints = new GridBagConstraints();
-        labelConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        labelConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
         GridBagConstraints editConstraints = new GridBagConstraints();
-        editConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+        editConstraints.anchor = GridBagConstraints.LINE_START;
         editConstraints.weightx = 1.0;
         editConstraints.fill = GridBagConstraints.HORIZONTAL;
 
@@ -98,6 +109,53 @@ public class CsvLogWriterGui extends AbstractListenerGui {
                 }
             }
         });
+
+
+        addToPanel(mainPanel, labelConstraints, 0, 3, additionalParamsCheckBox);
+        //additionalParamsCheckBox.setSelected(true);
+        additionalParamsCheckBox.addChangeListener(new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (additionalParamsCheckBox.isSelected()){
+                    additionalParamsCheckBox.setSelected(true);
+                }
+                else {
+                    additionalParamsCheckBox.setSelected(false);
+                }
+            }
+        });
+
+
+        addToPanel(mainPanel, labelConstraints, 0, 4, responseDataCheckBox);
+        responseDataCheckBox.setSelected(true);
+        responseDataCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (responseDataCheckBox.isSelected()){
+                    responseDataCheckBox.setSelected(true);
+                }
+                else {
+                    responseDataCheckBox.setSelected(false);
+                }
+
+            }
+        });
+
+        addToPanel(mainPanel, labelConstraints, 0, 5, userVariableCheckBox);
+        userVariableCheckBox.setSelected(true);
+        userVariableCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (userVariableCheckBox.isSelected()){
+                    userVariableCheckBox.setSelected(true);
+                }
+                else {
+                    userVariableCheckBox.setSelected(false);
+                }
+            }
+        });
+
     }
 
     private void addToPanel(JPanel panel, GridBagConstraints constraints, int col, int row, JComponent component) {
@@ -105,5 +163,6 @@ public class CsvLogWriterGui extends AbstractListenerGui {
         constraints.gridy = row;
         panel.add(component, constraints);
     }
+
 
 }
