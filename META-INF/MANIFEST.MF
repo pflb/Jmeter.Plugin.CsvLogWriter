@@ -5,7 +5,7 @@ Specification-Title: Abstract Listener Element
 Specification-Version: 2.13
 Specification-Vendor: Apache Software Foundation
 Implementation-Title: ru.pflb.jmeter.listener.CsvLogWriter (pflb@CsvLogWriter)
-Implementation-Version: 0.3.1
+Implementation-Version: 0.3.3
 Implementation-Vendor: Performance Lab
 Implementation-Vendor-Id: ru.pflb
 Implementation-URL: https://git.performance-lab.ru/v.smirnov/Jmeter.Plugin.CsvLogWriter
