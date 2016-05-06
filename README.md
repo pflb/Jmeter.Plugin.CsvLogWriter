@@ -1,5 +1,6 @@
 **Скачать плагин можно по ссылке:**
 
+- [ru.pflb.jmeter.listener.CsvLogWriter.jar - v0.3.1](/uploads/0d5e42987303e13561bf8709d6bd080a/ru.pflb.jmeter.listener.CsvLogWriter.jar)
 - [ru.pflb.jmeter.listener.CsvLogWriter.jar - v0.3](/uploads/6813f969b229f4714c2b55f3f8e33a94/ru.pflb.jmeter.listener.CsvLogWriter.jar)
 - **http://wiki.performance-lab.ru/images/3/3d/Ru.pflb.JMeter.Plugin.CsvLogWriter.jar.zip**
 
