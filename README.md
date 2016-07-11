@@ -1,10 +1,6 @@
 **Скачать плагин можно по ссылке:**
 
-- [ru.pflb.jmeter.listener.CsvLogWriter.jar - v0.3.1](/uploads/0d5e42987303e13561bf8709d6bd080a/ru.pflb.jmeter.listener.CsvLogWriter.jar)
-- [ru.pflb.jmeter.listener.CsvLogWriter.jar - v0.3](/uploads/6813f969b229f4714c2b55f3f8e33a94/ru.pflb.jmeter.listener.CsvLogWriter.jar)
-- **http://wiki.performance-lab.ru/images/3/3d/Ru.pflb.JMeter.Plugin.CsvLogWriter.jar.zip**
-
-
+https://github.com/pflb/Jmeter.Plugin.CsvLogWriter/blob/master/ru.pflb.jmeter.listener.CsvLogWriter.jar?raw=true
 
 Есть проект Jmeter-plugins.org, с **jp@gc - Flexible File Writer**:
 
@@ -87,8 +83,25 @@ D:\Project\jmeter-plugins\standard\src\kg\apc\jmeter\reporters\\**FlexibleFileWr
 - Hostname - наименование машины;	
 - IdleTime - время простоя, мс;
 - Connect - время, затраченное на установку соединения;	
-- responseData - полное содержание ошибки в случае ее возникновения;	
-- transactionLevel - уровень транзакции.
+- headersSize - размер заголовков;
+- bodySize - размера тела;
+- contentType - тип содержимого из заголовка ответа;
+- endTime - время конца запроса;
+- threadName_label - наименование треда и компонента JMeter;
+- parent_threadName_label - наименование треда и компонента JMeter родителя;
+- startTime - время начала запроса;
+- stopTest - признак остановлен ли тест - кнопка Stop;
+- stopTestNow - признак остановлен ли тест резко - кнопка Shutdown;
+- stopThread - признак остановлен ли текущий поток;
+- startNextThreadLoop - стартует ли повтор;
+- isTransactionSampleEvent - признак того, что текущее событие является транзакцией (TransactionController);
+- transactionLevel - уровень вложенности запроса;
+- responseDataAsString - полное содержание ошибки в формате строки в случае ее возникновения;
+- requestHeaders - заголовки запроса;
+- responseData - полное содержание ошибки в случае ее возникновения;
+- responseHeaders - заголовки ответа;
+- <Имя_переменной> - переменные JMeter.
+
 
 
   К ключевым особенностям данного плагина можно отнести то, что он может фиксировать результаты работы дочерних подзапросов и записывать полный текст ошибки, 
@@ -105,6 +118,6 @@ D:\Project\jmeter-plugins\standard\src\kg\apc\jmeter\reporters\\**FlexibleFileWr
     1454498797336;666;"Transaction Controller 2";"200";"Number of samples in transaction : 1, number of failing samples : 0";"Thread Group 1-1";"";true;"";114;1;1;"null";"";0;"ISO-8859-1";1;0;"aperevozchikova";9;0;"";1
     1454498802041;853;"jp@gc - Error Sampler";"500";"Internal Server Error";"Thread Group 1-1";"text";true;"";149;1;1;"null";"";87;"ISO-8859-1";1;0;"aperevozchikova";9;0;"Error text."
 
-Для запуска плагина необходимо заполнить поля Filename и Rotation. 
+Для запуска плагина необходимо заполнить поле Filename. 
 Поле Filename содержит путь к файлу, в котором будет вестись фиксация результатов работы. Можно прописать директорию вручную, или выбрать файл используя кнопку Browse. 
-В случае, когда указанный файл существует, создается новый файл с добавлением постфикса номера файла.
+В случае, когда указанный файл существует, создается новый файл с добавлением постфикса номера файла. Так же на форме расположены флажки. С помощью флажков можно манипулировать данными, фиксируемыми в логе. Флажок Additional parameters отвечает за фиксацию дополнительных параметров, Response data отвечает за фиксацию текста ошибок, User variables отвечает за фиксацию пользовательских переменных.
